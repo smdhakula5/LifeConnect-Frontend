@@ -2,28 +2,43 @@ import { useState } from "react";
 import { View, Text, StyleSheet, Modal, TextInput, Alert, ScrollView } from "react-native";
 import CustomButton from "../../components/CustomButton";
 
+
 export default function Login(props){
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [verified,setVerified] = useState(false);
     // const fetch = require('node-fetch');
     function usernameChanged(input){
         setUsername(input)
-        console.log(username)
+        //console.log(username)
     }
 
     function passwordChanged(input){
         setPassword(input)
-        console.log(password)
+        //console.log(password)
     }
 
     async function loginPressed(){
-        Alert.alert('Login pressed','Login button is working')
+        //Alert.alert('Login pressed','Login button is working')
         const details = {
             username: username,
             password: password
         }
-
+        await fetch('http://localhost:3000',{
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/json'
+              },
+            body: JSON.stringify(details)})
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if(data.status===true){
+                setVerified(true);
+            }
+        })
+        .catch(error => console.error(error));
         // fetch('https://example.com/api/data').then(response => response.json()).then(data => console.log(data)).catch(err => console.log(err))
     }
 
