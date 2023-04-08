@@ -45,7 +45,6 @@ export default function Login(props){
     }
 
     return(
-        // <Modal visible={props.modalVisibility} animationType='fade'>
         <View style={styles.viewContainer}>
             <ScrollView>
             <Text style={styles.headerStyle}> SIGN UP </Text>
@@ -70,7 +69,6 @@ export default function Login(props){
             <CustomButton title='Go Back' onPress={props.navigation.goBack}/>
         </ScrollView>
         </View>
-        // </Modal>
     )
 }
 

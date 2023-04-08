@@ -6,9 +6,6 @@ import SignUp from './Logins/SignUp'
 
 export default function LoginHome(props){
 
-    // const [loginVisibility,setLoginVisibility] =useState(false)
-    // const [signupVisibility,setSignupVisibility] =useState(false)
-
     function handleLogin(){
         props.navigation.navigate('Login')
     }
@@ -24,9 +21,7 @@ export default function LoginHome(props){
             <View style={styles.innerViewContainer}>
                 <Text style={styles.headerText}> Life Connect </Text>
                 <CustomButton onPress={handleLogin} title={"Login"} />
-                {/* <Login modalVisibility={loginVisibility} goBack={handleLogin} navigating={props.navigation}/> */}
                 <CustomButton onPress={handleSignup} title={"Sign Up"} />
-                {/* <SignUp modalVisibility={signupVisibility} goBack={handleSignup} /> */}
             </View>
             </View>
         </ScrollView>

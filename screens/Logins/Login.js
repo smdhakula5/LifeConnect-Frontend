@@ -18,19 +18,15 @@ export default function Login(props){
     }
 
     async function loginPressed(){
-        // Alert.alert('Login pressed','Login button is working')
         const details = {
             username: username,
             password: password
         }
 
         props.navigation.navigate('Dashboard')
-
-        // fetch('https://example.com/api/data').then(response => response.json()).then(data => console.log(data)).catch(err => console.log(err))
     }
 
     return(
-        // <Modal visible={props.modalVisibility} animationType='fade'>
             <View style={styles.viewContainer}>
             <ScrollView>
             <Text style={styles.headerStyle}> LOGIN </Text>
@@ -44,7 +40,6 @@ export default function Login(props){
             <CustomButton title='Go Back' onPress={props.navigation.goBack}/>
         </ScrollView>
         </View>
-        // </Modal>
     )
 }
 
