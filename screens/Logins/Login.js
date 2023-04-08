@@ -6,7 +6,7 @@ export default function Login(props){
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    // const fetch = require('node-fetch');
+    const fetch = require('node-fetch');
     function usernameChanged(input){
         setUsername(input)
         console.log(username)
@@ -24,7 +24,7 @@ export default function Login(props){
             password: password
         }
 
-        // fetch('https://example.com/api/data').then(response => response.json()).then(data => console.log(data)).catch(err => console.log(err))
+        fetch('https://example.com/api/data').then(response => response.json()).then(data => console.log(data)).catch(err => console.log(err))
     }
 
     return(
