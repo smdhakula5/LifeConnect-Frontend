@@ -6,7 +6,7 @@ export default function Login(props){
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const fetch = require('node-fetch');
+    // const fetch = require('node-fetch');
     function usernameChanged(input){
         setUsername(input)
         console.log(username)
@@ -18,17 +18,19 @@ export default function Login(props){
     }
 
     async function loginPressed(){
-        Alert.alert('Login pressed','Login button is working')
+        // Alert.alert('Login pressed','Login button is working')
         const details = {
             username: username,
             password: password
         }
 
-        fetch('https://example.com/api/data').then(response => response.json()).then(data => console.log(data)).catch(err => console.log(err))
+        props.navigation.navigate('Dashboard')
+
+        // fetch('https://example.com/api/data').then(response => response.json()).then(data => console.log(data)).catch(err => console.log(err))
     }
 
     return(
-        <Modal visible={props.modalVisibility} animationType='fade'>
+        // <Modal visible={props.modalVisibility} animationType='fade'>
             <View style={styles.viewContainer}>
             <ScrollView>
             <Text style={styles.headerStyle}> LOGIN </Text>
@@ -39,10 +41,10 @@ export default function Login(props){
             <TextInput placeholder="Enter password here" placeholderTextColor={'#888888'} style={styles.textInputStyle} secureTextEntry={true} onChangeText={passwordChanged} />
             </View>
             <CustomButton title='Login' onPress={loginPressed} />
-            <CustomButton title='Go Back' onPress={props.goBack}/>
+            <CustomButton title='Go Back' onPress={props.navigation.goBack}/>
         </ScrollView>
         </View>
-        </Modal>
+        // </Modal>
     )
 }
 
