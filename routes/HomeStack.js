@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator();
 
 export default function HomeStack(){
 
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     return (
         <NavigationContainer>

@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import CustomButton from "../components/CustomButton";
-import Login from "./Logins/Login";
-import SignUp from './Logins/SignUp'
+
 
 export default function LoginHome(props){
 

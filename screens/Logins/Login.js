@@ -9,12 +9,12 @@ export default function Login(props){
     // const fetch = require('node-fetch');
     function usernameChanged(input){
         setUsername(input)
-        console.log(username)
+        // console.log(username)
     }
 
     function passwordChanged(input){
         setPassword(input)
-        console.log(password)
+        // console.log(password)
     }
 
     async function loginPressed(){
