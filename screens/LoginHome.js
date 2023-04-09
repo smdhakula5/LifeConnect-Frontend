@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import { ImageBackground } from "react-native-web";
 import CustomButton from "../components/CustomButton";
 import Login from "./Logins/Login";
 import SignUp from './Logins/SignUp'
+// import { Dimensions } from 'react-native';
+
+// const screenWidth = Dimensions.get('window').width;
+// const screenHeight = Dimensions.get('window').height;
 
 export default function LoginHome(){
 
@@ -20,7 +25,7 @@ export default function LoginHome(){
         <View style={styles.outerviewContainer}>
         <ScrollView>
             <View style={styles.scrollStyle}>
-            <Image style={styles.imageStyle} source={require('../assets/images/imgLifeConnect.png')} />
+            <ImageBackground style={styles.imageStyle} source={require('../assets/images/imgLifeConnect.png')} />
             <View style={styles.innerViewContainer}>
                 <Text style={styles.headerText}> Life Connect </Text>
                 <CustomButton onPress={handleLogin} title={"Login"} />
@@ -61,9 +66,14 @@ const styles = StyleSheet.create({
         // marginLeft: 90,
     },
     imageStyle: {
+        // flex: 1,
+        // resizeMode: "cover",
+        // justifyContent: "center",
         margin: 10,
         padding: 10,
-        width: 150,
+        width: 100,
         height: 150,
+        // resizeMode: "cover"
     }
 })
+
