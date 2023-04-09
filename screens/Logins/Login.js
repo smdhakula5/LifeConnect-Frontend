@@ -24,6 +24,21 @@ export default function Login(props){
             username: username,
             password: password
         }
+        
+        await fetch('http://localhost:3000',{
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/json'
+              },
+            body: JSON.stringify(details)})
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if(data.status===true){
+                setVerified(true);
+            }
+        })
+        .catch(error => console.error(error));
 
         props.navigation.navigate('Dashboard')
     }
