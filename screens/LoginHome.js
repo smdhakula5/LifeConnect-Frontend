@@ -4,10 +4,6 @@ import { ImageBackground } from "react-native-web";
 import CustomButton from "../components/CustomButton";
 import Login from "./Logins/Login";
 import SignUp from './Logins/SignUp'
-// import { Dimensions } from 'react-native';
-
-// const screenWidth = Dimensions.get('window').width;
-// const screenHeight = Dimensions.get('window').height;
 
 export default function LoginHome(){
 
