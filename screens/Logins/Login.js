@@ -2,10 +2,12 @@ import { useState } from "react";
 import { View, Text, StyleSheet, Modal, TextInput, Alert, ScrollView } from "react-native";
 import CustomButton from "../../components/CustomButton";
 
+
 export default function Login(props){
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [verified,setVerified] = useState(false);
     // const fetch = require('node-fetch');
     function usernameChanged(input){
         setUsername(input)
