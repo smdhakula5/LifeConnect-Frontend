@@ -1,19 +1,15 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import CustomButton from "../components/CustomButton";
-import Login from "./Logins/Login";
-import SignUp from './Logins/SignUp'
 
-export default function LoginHome(){
 
-    const [loginVisibility,setLoginVisibility] =useState(false)
-    const [signupVisibility,setSignupVisibility] =useState(false)
+export default function LoginHome(props){
 
     function handleLogin(){
-        setLoginVisibility(!loginVisibility)
+        props.navigation.navigate('Login')
     }
     function handleSignup(){
-        setSignupVisibility(!signupVisibility)
+        props.navigation.navigate('SignUp')
     }
 
     return(
@@ -24,9 +20,7 @@ export default function LoginHome(){
             <View style={styles.innerViewContainer}>
                 <Text style={styles.headerText}> Life Connect </Text>
                 <CustomButton onPress={handleLogin} title={"Login"} />
-                <Login modalVisibility={loginVisibility} goBack={handleLogin} />
                 <CustomButton onPress={handleSignup} title={"Sign Up"} />
-                <SignUp modalVisibility={signupVisibility} goBack={handleSignup} />
             </View>
             </View>
         </ScrollView>
