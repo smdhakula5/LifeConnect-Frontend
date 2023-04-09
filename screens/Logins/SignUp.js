@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, Modal, TextInput, Alert, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Modal, TextInput, Alert, ScrollView, } from "react-native";
 import { Dropdown } from 'react-native-element-dropdown';
+
+
 import CustomButton from "../../components/CustomButton";
 
 export default function Login(props){
@@ -43,7 +45,6 @@ export default function Login(props){
     }
 
     return(
-        <Modal visible={props.modalVisibility} animationType='fade'>
         <View style={styles.viewContainer}>
             <ScrollView>
             <Text style={styles.headerStyle}> SIGN UP </Text>
@@ -65,10 +66,9 @@ export default function Login(props){
             <TextInput placeholder="Enter password here" placeholderTextColor={'#888888'} style={styles.textInputStyle} secureTextEntry={true} onChangeText={passwordChanged} />
             </View>
             <CustomButton title='Sign Up' />
-            <CustomButton title='Go Back' onPress={props.goBack}/>
+            <CustomButton title='Go Back' onPress={props.navigation.goBack}/>
         </ScrollView>
         </View>
-        </Modal>
     )
 }
 
