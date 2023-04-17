@@ -1,16 +1,20 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, Modal, TextInput, Alert, ScrollView, } from "react-native";
+import { View, Text, StyleSheet, Modal, TextInput, Alert, ScrollView, LogBox } from "react-native";
 import { Dropdown } from 'react-native-element-dropdown';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 
 import CustomButton from "../../components/CustomButton";
 
 export default function Login(props){
 
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+
     const [name, setName] = useState("")
     const [password, setPassword] = useState("")
     const [phoneNo, setPhoneNo] = useState("")
     const [username, setUsername] = useState("")
+    const [address, setAddress] = useState("")
 
     const bloodGroups = [
         {label: 'A', value: '1'},
@@ -39,6 +43,11 @@ export default function Login(props){
         // console.log(phoneNo)
     }
 
+    function addressHandler(data, details = null){
+        console.log(data)
+        console.log(details)
+    }
+
     function passwordChanged(input){
         setPassword(input)
         // console.log(password)
@@ -46,7 +55,7 @@ export default function Login(props){
 
     return(
         <View style={styles.viewContainer}>
-            <ScrollView>
+            <ScrollView keyboardShouldPersistTaps='handled'>
             <Text style={styles.headerStyle}> SIGN UP </Text>
             <View style={styles.detailsViewStyle}>
             <Text style={styles.textStyle}> Name </Text>
@@ -57,7 +66,8 @@ export default function Login(props){
                 <Dropdown style={styles.dropDownStyle} data={bloodGroupsType} labelField='label' valueField={'value'} />
             </View>
             <Text style={styles.textStyle}> Permanent Address </Text>
-            <TextInput multiline style={styles.textInputStyle} numberOfLines={4} />
+            {/* <TextInput multiline style={styles.textInputStyle} numberOfLines={4} /> */}
+            <GooglePlacesAutocomplete placeholder="Enter address here" placeholderTextColor={'#888888'} style={styles.textInputStyle} minLength={5} onPress={(item)=>{setAddress(item); console.log(item)}} query={{key: 'API_KEY',language:'en'}} />
             <Text style={styles.textStyle}> Phone Number </Text>
             <TextInput style={styles.textInputStyle} placeholder="Enter phone number here" placeholderTextColor={'#888888'} onChangeText={phoneNumberChanged} />
             <Text style={styles.textStyle}> Username </Text>
