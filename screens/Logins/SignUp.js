@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, Modal, TextInput, Alert, ScrollView, LogBox } from "react-native";
 import { Dropdown } from 'react-native-element-dropdown';
+import CheckBox from "react-native-check-box";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 
@@ -15,6 +16,8 @@ export default function Login(props){
     const [phoneNo, setPhoneNo] = useState("")
     const [username, setUsername] = useState("")
     const [address, setAddress] = useState("")
+    const [userType, setUserType] = useState(false)
+
 
     const bloodGroups = [
         {label: 'A', value: '1'},
@@ -60,14 +63,17 @@ export default function Login(props){
             <View style={styles.detailsViewStyle}>
             <Text style={styles.textStyle}> Name </Text>
             <TextInput placeholder="Enter name here" placeholderTextColor={'#888888'} style={styles.textInputStyle} onChangeText={nameChanged} />
+            <CheckBox style={{marginVertical: 10, padding: 9}} rightTextStyle={{color:'white'}} checkBoxColor="white" checkedCheckBoxColor="#24d2e9" onClick={()=>{setUserType(!userType)}} isChecked={userType} rightText={"I am a donor"} />
+            {userType && <View> 
             <Text style={styles.textStyle}> Blood Group </Text>
             <View style={styles.bloodViewStyle}>
                 <Dropdown style={styles.dropDownStyle} data={bloodGroups} labelField='label' valueField={'value'} />
                 <Dropdown style={styles.dropDownStyle} data={bloodGroupsType} labelField='label' valueField={'value'} />
-            </View>
-            <Text style={styles.textStyle}> Permanent Address </Text>
+            </View> 
+            </View>}
+            <Text style={[styles.textStyle,{marginVertical: 10}]}> Permanent Address </Text>
             {/* <TextInput multiline style={styles.textInputStyle} numberOfLines={4} /> */}
-            <GooglePlacesAutocomplete placeholder="Enter address here" placeholderTextColor={'#888888'} style={styles.textInputStyle} minLength={5} onPress={(item)=>{setAddress(item); console.log(item)}} query={{key: 'API_KEY',language:'en'}} />
+            <GooglePlacesAutocomplete styles={{marginVertical: 10, padding: 9}} placeholder="Enter address here" placeholderTextColor={'#888888'} style={styles.textInputStyle} minLength={5} onPress={(item)=>{setAddress(item); console.log(item)}} query={{key: 'API_KEY',language:'en'}} />
             <Text style={styles.textStyle}> Phone Number </Text>
             <TextInput style={styles.textInputStyle} placeholder="Enter phone number here" placeholderTextColor={'#888888'} onChangeText={phoneNumberChanged} />
             <Text style={styles.textStyle}> Username </Text>
