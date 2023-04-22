@@ -1,9 +1,24 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import { ImageBackground } from "react-native-web";
 import CustomButton from "../components/CustomButton";
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function LoginHome(props){
+
+    // const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    // useEffect(() => {
+    //     async function checkLoggedIn(){
+    //         const username = await AsyncStorage.getItem('username');
+    //         if(username !== null){
+    //             setIsLoggedIn(true);
+    //             props.navigation.navigate('Dashboard');
+    //         }
+    //     }
+    //     checkLoggedIn();
+    // }, []);
 
     function handleLogin(){
         props.navigation.navigate('Login')
@@ -16,7 +31,7 @@ export default function LoginHome(props){
         <View style={styles.outerviewContainer}>
         <ScrollView>
             <View style={styles.scrollStyle}>
-            <Image style={styles.imageStyle} source={require('../assets/images/imgLifeConnect.png')} />
+            <ImageBackground style={styles.imageStyle} source={require('../assets/images/imgLifeConnect.png')} />
             <View style={styles.innerViewContainer}>
                 <Text style={styles.headerText}> Life Connect </Text>
                 <CustomButton onPress={handleLogin} title={"Login"} />
@@ -55,9 +70,14 @@ const styles = StyleSheet.create({
         // marginLeft: 90,
     },
     imageStyle: {
+        // flex: 1,
+        // resizeMode: "cover",
+        // justifyContent: "center",
         margin: 10,
         padding: 10,
-        width: 150,
+        width: 100,
         height: 150,
+        // resizeMode: "cover"
     }
 })
+
