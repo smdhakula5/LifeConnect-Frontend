@@ -2,9 +2,23 @@ import { useState } from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { ImageBackground } from "react-native-web";
 import CustomButton from "../components/CustomButton";
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function LoginHome(props){
+
+    // const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    // useEffect(() => {
+    //     async function checkLoggedIn(){
+    //         const username = await AsyncStorage.getItem('username');
+    //         if(username !== null){
+    //             setIsLoggedIn(true);
+    //             props.navigation.navigate('Dashboard');
+    //         }
+    //     }
+    //     checkLoggedIn();
+    // }, []);
 
     function handleLogin(){
         props.navigation.navigate('Login')
