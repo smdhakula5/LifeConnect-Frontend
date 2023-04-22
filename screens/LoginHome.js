@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
-import { ImageBackground } from "react-native-web";
 import CustomButton from "../components/CustomButton";
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -31,7 +30,7 @@ export default function LoginHome(props){
         <View style={styles.outerviewContainer}>
         <ScrollView>
             <View style={styles.scrollStyle}>
-            <ImageBackground style={styles.imageStyle} source={require('../assets/images/imgLifeConnect.png')} />
+            <Image style={styles.imageStyle} source={require('../assets/images/imgLifeConnect.png')} />
             <View style={styles.innerViewContainer}>
                 <Text style={styles.headerText}> Life Connect </Text>
                 <CustomButton onPress={handleLogin} title={"Login"} />

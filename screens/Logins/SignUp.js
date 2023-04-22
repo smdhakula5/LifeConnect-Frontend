@@ -205,8 +205,8 @@ export default function Login(props) {
   }
 
   return (
-    <View style={styles.viewContainer}>
       <ScrollView>
+    <View style={styles.viewContainer}>
         <Text style={styles.headerStyle}>SIGN UP</Text>
         <View style={styles.detailsViewStyle}>
           <Text style={styles.textStyle}>Name</Text>
@@ -266,8 +266,8 @@ export default function Login(props) {
           backgroundColor={"#2C2C2C"}
           textColor={"#FFFFFF"}
         />
-        </ScrollView>
     </View>
+        </ScrollView>
   );
 }
 const styles = StyleSheet.create({
