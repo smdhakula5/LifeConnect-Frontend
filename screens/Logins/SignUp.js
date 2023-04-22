@@ -73,7 +73,7 @@ export default function Login(props){
             </View>}
             <Text style={[styles.textStyle,{marginVertical: 10}]}> Permanent Address </Text>
             {/* <TextInput multiline style={styles.textInputStyle} numberOfLines={4} /> */}
-            <GooglePlacesAutocomplete styles={{marginVertical: 10, padding: 9}} placeholder="Enter address here" placeholderTextColor={'#888888'} style={styles.textInputStyle} minLength={5} onPress={(item)=>{setAddress(item); console.log(item)}} query={{key: 'API_KEY',language:'en'}} />
+            <GooglePlacesAutocomplete styles={{marginVertical: 10, padding: 9}} placeholder="Enter address here" placeholderTextColor={'#888888'} style={styles.textInputStyle} minLength={5} onPress={(item,details)=>{setAddress(item); console.log(details)}} query={{key: 'AIzaSyD_TW6eYj_vZurwo78v3L0c-VP2Q84KNTc',language:'en'}} />
             <Text style={styles.textStyle}> Phone Number </Text>
             <TextInput style={styles.textInputStyle} placeholder="Enter phone number here" placeholderTextColor={'#888888'} onChangeText={phoneNumberChanged} />
             <Text style={styles.textStyle}> Username </Text>
@@ -138,3 +138,5 @@ const styles = StyleSheet.create({
 // Phone No.
 // Username
 // Password
+
+// AIzaSyD_TW6eYj_vZurwo78v3L0c-VP2Q84KNTc
