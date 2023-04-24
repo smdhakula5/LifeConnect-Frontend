@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView, LogBox } from "react-native";
 import CustomButton from "../components/CustomButton";
 
+
+LogBox.ignoreLogs(["ViewPropTypes will be removed from React Native"]);
 
 export default function LoginHome(props){
 
