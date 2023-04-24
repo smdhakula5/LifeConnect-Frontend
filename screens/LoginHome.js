@@ -1,11 +1,25 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, Image, ScrollView, LogBox } from "react-native";
 import CustomButton from "../components/CustomButton";
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 LogBox.ignoreLogs(["ViewPropTypes will be removed from React Native"]);
 
 export default function LoginHome(props){
+
+    // const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    // useEffect(() => {
+    //     async function checkLoggedIn(){
+    //         const username = await AsyncStorage.getItem('username');
+    //         if(username !== null){
+    //             setIsLoggedIn(true);
+    //             props.navigation.navigate('Dashboard');
+    //         }
+    //     }
+    //     checkLoggedIn();
+    // }, []);
 
     function handleLogin(){
         props.navigation.navigate('Login')
@@ -57,9 +71,14 @@ const styles = StyleSheet.create({
         // marginLeft: 90,
     },
     imageStyle: {
+        // flex: 1,
+        // resizeMode: "cover",
+        // justifyContent: "center",
         margin: 10,
         padding: 10,
-        width: 150,
+        width: 100,
         height: 150,
+        // resizeMode: "cover"
     }
 })
+

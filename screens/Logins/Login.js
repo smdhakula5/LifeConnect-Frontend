@@ -1,6 +1,13 @@
+
+/*
 import { useState } from "react";
 import { View, Text, StyleSheet, Modal, TextInput, Alert, ScrollView } from "react-native";
 import CustomButton from "../../components/CustomButton";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+
+
 
 
 export default function Login(props){
@@ -8,7 +15,6 @@ export default function Login(props){
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [verified,setVerified] = useState(false);
-    // const fetch = require('node-fetch');
     function usernameChanged(input){
         setUsername(input)
         // console.log(username)
@@ -35,12 +41,15 @@ export default function Login(props){
         .then(data => {
             console.log(data);
             if(data.status===true){
-                setVerified(true);
+               AsyncStorage.setItem('username', username);
+               //setVerified(true);
+               navigation.navigate('Dashboard');
+            }
+            else{
+               navigation.navigate('LoginHome');
             }
         })
         .catch(error => console.error(error));
-
-        props.navigation.navigate('Dashboard')
     }
 
     return(
@@ -90,3 +99,124 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     }
 })
+
+*/
+
+import { useState } from "react";
+import { View, Text, StyleSheet, Modal, TextInput, Alert, ScrollView } from "react-native";
+import CustomButton from "../../components/CustomButton";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+export default function Login(props) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [verified, setVerified] = useState(false);
+
+  const usernameChanged = (input) => {
+    setUsername(input);
+  };
+
+  const passwordChanged = (input) => {
+    setPassword(input);
+  };
+
+  async function loginPressed() {
+    const details = {
+      username: username,
+      password: password,
+    };
+
+    try {
+      const response = await fetch("http://localhost:3000/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(details),
+      });
+
+      const data = await response.json();
+
+      if (data.status === true) {
+        //Also set the type of user after getting response
+        await AsyncStorage.setItem("username", username);
+        setVerified(true);
+        navigation.navigate("Dashboard");
+      } else {
+        navigation.navigate("LoginHome");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.headerText}>Login</Text>
+      <View style={styles.inputContainer}>
+        <Text style={styles.inputLabel}>Username</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter username here"
+          placeholderTextColor="#ccc"
+          onChangeText={usernameChanged}
+        />
+        <Text style={styles.inputLabel}>Password</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter password here"
+          placeholderTextColor="#ccc"
+          secureTextEntry={true}
+          onChangeText={passwordChanged}
+        />
+      </View>
+      <CustomButton title="Login" onPress={loginPressed} />
+      <CustomButton title="Go Back" onPress={props.navigation.goBack} />
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    backgroundColor: "#f5f5f5",
+    paddingVertical: 40,
+    paddingHorizontal: 20,
+    alignItems: "center",
+  },
+  headerText: {
+    fontSize: 36,
+    fontWeight: "bold",
+    color: "#000",
+    marginBottom: 30,
+    alignSelf: "flex-start",
+  },
+  inputContainer: {
+    width: "100%",
+    marginBottom: 30,
+    paddingHorizontal: 20,
+  },
+  inputLabel: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#000",
+    marginBottom: 10,
+  },
+  input: {
+    height: 50,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    backgroundColor: "#fff",
+    marginBottom: 20,
+  },
+});
+
+
+
+
+
+
+
+
