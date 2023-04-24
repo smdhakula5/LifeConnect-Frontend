@@ -1,6 +1,4 @@
 
-//AIzaSyD_TW6eYj_vZurwo78v3L0c-VP2Q84KNTc
-/*
 import { useState } from "react";
 import { View, Text, StyleSheet, Modal, TextInput, Alert, ScrollView, LogBox } from "react-native";
 import { Dropdown } from 'react-native-element-dropdown';
