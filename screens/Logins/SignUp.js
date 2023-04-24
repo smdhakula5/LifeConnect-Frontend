@@ -11,6 +11,7 @@ export default function Login(props){
 
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
+    
     const [name, setName] = useState("")
     const [password, setPassword] = useState("")
     const [phoneNo, setPhoneNo] = useState("")
