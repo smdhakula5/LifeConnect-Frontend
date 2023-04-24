@@ -38,6 +38,8 @@ export default function Login(props) {
     const [phoneNo, setPhoneNo] = useState("");
     const [username, setUsername] = useState("");
     const [isValid, setStatus] = useState(false);
+    const [bloodGroup, setBloodGroup] = useState("");
+    const [bloodGroupType, setBloodGroupType] = useState("");
   const [address, setAddress] = useState("")
   const [userType, setUserType] = useState(false)
 
@@ -124,12 +126,16 @@ function passwordChanged(input) {
               data={bloodGroups}
               labelField="label"
               valueField={"value"}
+              onChange={(value) => {setBloodGroup(value)}}
+              value={bloodGroup}
             />
             <Dropdown
               style={styles.dropDownStyle}
               data={bloodGroupsType}
               labelField="label"
               valueField={"value"}
+              onChange={(value) => setBloodGroupType(value)}
+              value={bloodGroupType}
               />
           </View>
           </View>
