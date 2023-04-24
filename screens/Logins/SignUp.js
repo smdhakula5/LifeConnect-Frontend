@@ -1,14 +1,22 @@
 
 //AIzaSyD_TW6eYj_vZurwo78v3L0c-VP2Q84KNTc
-import { useState } from "react";
-import { View, Text, StyleSheet, Modal, TextInput, Alert, ScrollView, LogBox } from "react-native";
-import { Dropdown } from 'react-native-element-dropdown';
+
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Modal,
+  TextInput,
+  Alert,
+  ScrollView,
+  LogBox,
+} from "react-native";
 import CheckBox from "react-native-check-box";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-
-
+import { Dropdown } from "react-native-element-dropdown";
 import CustomButton from "../../components/CustomButton";
+LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
 // import React, { useState } from "react";
 // import {
