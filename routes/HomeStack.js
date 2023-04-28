@@ -127,31 +127,52 @@ export default function HomeStack(){
         })
     },[]);
 
-    if(!isLoggedIn){
-        return(
-            <NavigationContainer>
-                <Stack.Navigator initialRouteName='LoginHome'>
-                    <Stack.Screen name='LoginHome' component={LoginHome} />
-                    <Stack.Screen name='Login' component={Login} />
-                    <Stack.Screen name='SignUp' component={SignUp} />
-                    <Stack.Screen name='Dashboard' component={Dashboard} />
-                </Stack.Navigator>
-            </NavigationContainer>
-        );
-    }
-    // else if(isLoggedIn && userType==='Hospital'){
-
-    // }    
-    else{
-    return (
+    return(
         <NavigationContainer>
-            <Stack.Navigator initialRouteName='Dashboard'>
+            <Stack.Navigator 
+            initialRouteName={()=>{
+                if(isLoggedIn){
+                    return 'Dashboard';
+                }
+                else{
+                    return 'LoginHome';
+                }
+                }}>
+                <Stack.Screen name='LoginHome' component={LoginHome} />
+                <Stack.Screen name='Login' component={Login} />
+                <Stack.Screen name='SignUp' component={SignUp} />
                 <Stack.Screen name='Dashboard' component={Dashboard} />
                 <Stack.Screen name='UserProfile' component={UserProfile}/>
             </Stack.Navigator>
         </NavigationContainer>
     );
-    }
+
+    // if(!isLoggedIn){
+    //     return(
+    //         <NavigationContainer>
+    //             <Stack.Navigator initialRouteName={'LoginHome'}>
+    //                 <Stack.Screen name='LoginHome' component={LoginHome} />
+    //                 <Stack.Screen name='Login' component={Login} />
+    //                 <Stack.Screen name='SignUp' component={SignUp} />
+    //                 <Stack.Screen name='Dashboard' component={Dashboard} />
+    //                 <Stack.Screen name='UserProfile' component={UserProfile}/>
+    //             </Stack.Navigator>
+    //         </NavigationContainer>
+    //     );
+    // }
+    // // else if(isLoggedIn && userType==='Hospital'){
+
+    // // }    
+    // else{
+    // return (
+    //     <NavigationContainer>
+    //         <Stack.Navigator initialRouteName='Dashboard'>
+    //             <Stack.Screen name='Dashboard' component={Dashboard} />
+    //             <Stack.Screen name='UserProfile' component={UserProfile}/>
+    //         </Stack.Navigator>
+    //     </NavigationContainer>
+    // );
+    // }
 
 }
 

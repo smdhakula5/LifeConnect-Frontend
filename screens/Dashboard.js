@@ -53,14 +53,15 @@ export default function Dashboard(props){
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const handleLogout = ()=>{
-        AsyncStorage.removeItem('username')
-        .then(() => {
-            console.log('Username removed from AsyncStorage');
-            navigation.navigate('LoginHome');
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+        // AsyncStorage.removeItem('username')
+        // .then(() => {
+        //     console.log('Username removed from AsyncStorage');
+        //     navigation.navigate('LoginHome');
+        // })
+        // .catch((err) => {
+        //     console.log(err);
+        // });
+        props.navigation.navigate('LoginHome');
     }
 
     const handleProfile = ()=>{

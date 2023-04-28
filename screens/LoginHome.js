@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, Image, ScrollView, LogBox } from "react-native";
+import { View, Text, StyleSheet,TouchableOpacity, ImageBackground, ScrollView, LogBox } from "react-native";
 import CustomButton from "../components/CustomButton";
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -30,55 +30,98 @@ export default function LoginHome(props){
 
     return(
         <View style={styles.outerviewContainer}>
+            <ImageBackground source={require('../assets/images/LifeConnect.png')} style={styles.imageStyle}>
         <ScrollView>
             <View style={styles.scrollStyle}>
-            <Image style={styles.imageStyle} source={require('../assets/images/imgLifeConnect.png')} />
+            {/* <Image style={styles.imageStyle} source={require('../assets/images/imgLifeConnect.png')} /> */}
             <View style={styles.innerViewContainer}>
                 <Text style={styles.headerText}> Life Connect </Text>
-                <CustomButton onPress={handleLogin} title={"Login"} />
-                <CustomButton onPress={handleSignup} title={"Sign Up"} />
+                <TouchableOpacity style={styles.buttonStyle} onPress={handleLogin}>
+                    <Text style={styles.buttonText}>Login</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.buttonStyle, {backgroundColor: '#2196f3', borderWidth: 1}]} onPress={handleSignup}>
+                    <Text style={[styles.buttonText, {color: "#ffffff"}]}>Sign Up</Text>
+                </TouchableOpacity>
             </View>
             </View>
         </ScrollView>
+        </ImageBackground>
         </View>
     )
 }
 
+// const styles = StyleSheet.create({
+//     outerviewContainer: {
+//         // margin: 10,
+//         // padding: 10,
+//         // justifyContent: 'center',
+//         // alignItems: 'center',
+//         // flexDirection: 'column',
+//         flex: 1,
+//         // borderWidth: 2,
+//         backgroundColor: '#6a0094d0',
+//     },
+//     scrollStyle: {
+//         alignItems: 'center',
+//     },
+
+//     innerViewContainer: {
+//         margin: 10,
+//         padding: 10,
+//     },
+//     headerText: {
+//         fontSize: 27,
+//         padding: 5,
+//         color: '#ffffff',
+//         // marginHorizontal: 40,
+//         // marginLeft: 90,
+//     },
+//     imageStyle: {
+//         // flex: 1,
+//         // resizeMode: "cover",
+//         // justifyContent: "center",
+//         margin: 10,
+//         padding: 10,
+//         width: 100,
+//         height: 150,
+//         // resizeMode: "cover"
+//     }
+// })
+
 const styles = StyleSheet.create({
-    outerviewContainer: {
-        // margin: 10,
-        // padding: 10,
-        // justifyContent: 'center',
-        // alignItems: 'center',
-        // flexDirection: 'column',
+    imageStyle: {
         flex: 1,
-        // borderWidth: 2,
-        backgroundColor: '#6a0094d0',
+        resizeMode: "cover",
+        justifyContent: "center"
+    },
+    outerviewContainer: {
+        flex: 1,
+        backgroundColor: 'transparent',
     },
     scrollStyle: {
         alignItems: 'center',
     },
-
     innerViewContainer: {
         margin: 10,
         padding: 10,
+        alignItems: "center"
     },
     headerText: {
         fontSize: 27,
         padding: 5,
         color: '#ffffff',
-        // marginHorizontal: 40,
-        // marginLeft: 90,
     },
-    imageStyle: {
-        // flex: 1,
-        // resizeMode: "cover",
-        // justifyContent: "center",
-        margin: 10,
+    buttonStyle: {
         padding: 10,
-        width: 100,
-        height: 150,
-        // resizeMode: "cover"
+        marginVertical: 10,
+        width: "100%",
+        borderRadius: 5,
+        backgroundColor: '#2196f3',
+        alignItems: "center"
+    },
+    buttonText: {
+        fontSize: 20,
+        color: "#ffffff"
     }
 })
 

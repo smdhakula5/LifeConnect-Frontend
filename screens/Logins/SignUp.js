@@ -16,6 +16,7 @@ import CheckBox from "react-native-check-box";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Dropdown } from "react-native-element-dropdown";
 import CustomButton from "../../components/CustomButton";
+import PasswordValidator from "password-validator";
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
 // import React, { useState } from "react";
@@ -30,7 +31,6 @@ LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 // } from "react-native";
 // import { Dropdown } from "react-native-element-dropdown";
 // import CustomButton from "../../components/CustomButton";
-import PasswordValidator from "password-validator";
 
 export default function Login(props) {
     const [name, setName] = useState("");

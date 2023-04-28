@@ -126,28 +126,29 @@ export default function Login(props) {
       password: password,
     };
 
-    try {
-      const response = await fetch("http://localhost:3000/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(details),
-      });
+    // try {
+    //   const response = await fetch("http://localhost:3000/users/login", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(details),
+    //   });
 
-      const data = await response.json();
+    //   const data = await response.json();
 
-      if (data.status === true) {
-        //Also set the type of user after getting response
-        await AsyncStorage.setItem("username", username);
-        setVerified(true);
-        navigation.navigate("Dashboard");
-      } else {
-        navigation.navigate("LoginHome");
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    //   if (data.status === true) {
+    //     //Also set the type of user after getting response
+    //     await AsyncStorage.setItem("username", username);
+    //     setVerified(true);
+    //     navigation.navigate("Dashboard");
+    //   } else {
+    //     navigation.navigate("LoginHome");
+    //   }
+    // } catch (error) {
+    //   console.error(error);
+    // }
+    props.navigation.navigate('Dashboard')
   }
 
   return (
