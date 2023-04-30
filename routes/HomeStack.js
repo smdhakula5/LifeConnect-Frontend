@@ -132,7 +132,7 @@ export default function HomeStack(){
             <Stack.Navigator 
             initialRouteName={()=>{
                 if(isLoggedIn){
-                    return 'Dashboard';
+                    return 'Dashboard'
                 }
                 else{
                     return 'LoginHome';
