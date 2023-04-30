@@ -102,15 +102,14 @@ const styles = StyleSheet.create({
 
 */
 
-import { useState } from "react";
-import { View, Text, StyleSheet, Modal, TextInput, Alert, ScrollView } from "react-native";
+import { useEffect, useState } from "react";
+import { View, Text, StyleSheet, Modal, TextInput, Alert, ScrollView} from "react-native";
 import CustomButton from "../../components/CustomButton";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [verified, setVerified] = useState(false);
 
   const usernameChanged = (input) => {
     setUsername(input);
@@ -127,7 +126,7 @@ export default function Login(props) {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/users/login", {
+      const response = await fetch("http://192.168.29.123:3000/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -136,14 +135,21 @@ export default function Login(props) {
       });
 
       const data = await response.json();
+      console.log(data);
 
       if (data.status === true) {
-        //Also set the type of user after getting response
         await AsyncStorage.setItem("username", username);
-        setVerified(true);
-        navigation.navigate("Dashboard");
+        await AsyncStorage.setItem("userType",data.userType);
+        // setVerified(true);
+        //if it doesn't work on webapp, remove the props in navigation
+        if(data.userType==="donor"){
+          props.navigation.navigate("Dashboard");
+        }
+        else if(data.userType==="receiver"){
+          props.navigation.navigate("ReceiverDashboard");
+        }
       } else {
-        navigation.navigate("LoginHome");
+        props.navigation.navigate("LoginHome");
       }
     } catch (error) {
       console.error(error);
@@ -170,7 +176,7 @@ export default function Login(props) {
           onChangeText={passwordChanged}
         />
       </View>
-      <CustomButton title="Login" onPress={loginPressed} />
+      <CustomButton title="Login" onPress={loginPressed} style={styles.loginButton} />
       <CustomButton title="Go Back" onPress={props.navigation.goBack} />
     </ScrollView>
   );
@@ -183,6 +189,16 @@ const styles = StyleSheet.create({
     paddingVertical: 40,
     paddingHorizontal: 20,
     alignItems: "center",
+  },
+  loginButton: {
+    marginTop: 20,
+    backgroundColor: '#2196f3',
+    borderWidth: 1,
+    borderColor: '#2196f3',
+    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    alignItems: 'center',
   },
   headerText: {
     fontSize: 36,
@@ -212,6 +228,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
+
 
 
 

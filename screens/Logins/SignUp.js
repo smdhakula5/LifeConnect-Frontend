@@ -18,21 +18,10 @@ import { Dropdown } from "react-native-element-dropdown";
 import CustomButton from "../../components/CustomButton";
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
-// import React, { useState } from "react";
-// import {
-//   View,
-//   Text,
-//   StyleSheet,
-//   Modal,
-//   TextInput,
-//   Alert,
-//   ScrollView,
-// } from "react-native";
-// import { Dropdown } from "react-native-element-dropdown";
-// import CustomButton from "../../components/CustomButton";
 import PasswordValidator from "password-validator";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function Login(props) {
+export default function SignUp(props) {
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [phoneNo, setPhoneNo] = useState("");
@@ -71,6 +60,10 @@ export default function Login(props) {
     // console.log(name)
 }
 
+function addressChanged(input){
+  setAddress(input);
+}
+
 function usernameChanged(input) {
     setUsername(input);
     // console.log(username)
@@ -94,10 +87,43 @@ function passwordChanged(input) {
         // console.log(password)
     }
     
-    function handleSignup(){
+    async function handleSignup(){
         //API for hitting server and getting response
+        const details = {
+          userName:username,
+          password:password,
+          name:name,
+          phoneNumber:phoneNo,
+          bloodGroup:bloodGroup.label+bloodGroupType.label,
+          permanentAddress:address,
+
+        }
+        console.log(details);
         if(schema.validate(password)){
-            props.navigation.navigate('Dashboard');
+          try {
+            const response = await fetch("http://192.168.29.123:3000/users/signup", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(details),
+            });
+      
+            const data = await response.json();
+      
+            if (data.status === true) {
+              //Also set the type of user after getting response
+              await AsyncStorage.setItem("username", username);
+              await AsyncStorage.setItem("userType",data.userType);
+              data.userType=="donor"?navigation.navigate("Dashboard"):navigation.navigate("ReceiverDashboard");
+            } else {
+              console.log(details);
+            }
+          } catch (error) {
+            console.error(error);
+          }
+
+            // props.navigation.navigate('Dashboard');
         }
         else{
             props.navigation.navigate('SignUp');
@@ -141,7 +167,14 @@ function passwordChanged(input) {
           </View>
             }
           <Text style={[styles.textStyle,{marginVertical: 10}]}> Permanent Address </Text>
-          <GooglePlacesAutocomplete styles={{marginVertical: 10, padding: 9}} placeholder="Enter address here" placeholderTextColor={'#888888'} style={styles.textInputStyle} minLength={5} onPress={(item,details)=>{setAddress(item); console.log(details)}} query={{key: 'YOUR_API',language:'en'}} />
+          <TextInput
+            style={styles.textInputStyle}
+            placeholder="Enter address here"
+            placeholderTextColor={"#888888"}
+            onChangeText={addressChanged}
+            fontWeight={'bold'}
+            />
+          {/* <GooglePlacesAutocomplete styles={{marginVertical: 10, padding: 9}} placeholder="Enter address here" placeholderTextColor={'#888888'} style={styles.textInputStyle} minLength={5} onPress={(item,details)=>{setAddress(item); console.log(details)}} query={{key: 'YOUR_API',language:'en'}} /> */}
           <Text style={styles.textStyle}>Phone Number</Text>
           <TextInput
             style={styles.textInputStyle}
@@ -180,87 +213,6 @@ function passwordChanged(input) {
         </ScrollView>
   );
 }
-// const styles = StyleSheet.create({
-// viewContainer: {
-//     flexGrow: 1,
-//     backgroundColor: "#f5f5f5",
-//     paddingVertical: 40,
-//     paddingHorizontal: 20,
-//     alignItems: "center",
-// },
-// headerStyle: {
-//     fontSize: 36,
-//     fontWeight: "bold",
-// color: "#000",
-// marginBottom: 30,
-// alignSelf: "flex-start",
-// },
-// inputContainer: {
-// width: "100%",
-// marginBottom: 30,
-// paddingHorizontal: 20,
-// },
-// inputLabel: {
-//     fontSize: 18,
-//     fontWeight: "bold",
-//     color: "#000",
-// marginBottom: 10,
-// },
-// input: {
-//     height: 50,
-//     borderWidth: 1,
-//     borderColor: "#ccc",
-// borderRadius: 5,
-// paddingHorizontal: 10,
-// backgroundColor: "#fff",
-// marginBottom: 20,
-// },
-// detailsViewStyle: {
-//     flexGrow: 1,
-// backgroundColor: "#F9F9F9",
-// padding: 16,
-// },
-// textStyle: {
-//     fontSize: 24,
-//     fontWeight: "bold",
-//     color: "#2C2C2C",
-//     marginBottom: 24,
-// },
-// textInputStyle: {
-//     marginBottom: 16,
-//     padding: 12,
-//     borderRadius: 8,
-//     borderWidth: 1,
-//     borderColor: "#BDBDBD",
-//     fontSize: 16,
-//     color: "#2C2C2C",
-// },
-// bloodViewStyle: {
-//     flexDirection: "row",
-//     justifyContent: "space-between",
-//     alignItems: "center",
-//     marginBottom: 16,
-// },
-// dropDownStyle: {
-// width: "45%",
-// },
-// customButtonContainer: {
-//     marginVertical: 8,
-// marginHorizontal: 8,
-// },
-// customButton: {
-// backgroundColor: "#2C2C2C",
-// paddingVertical: 12,
-// borderRadius: 8,
-// alignItems: "center",
-// width: "50%",
-// },
-// customButtonText: {
-//     fontSize: 18,
-//     color: "#FFFFFF",
-// fontWeight: "bold",
-// },
-// });
 
 const styles = StyleSheet.create({
     viewContainer: {
