@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyleSheet, View, Text } from 'react-native';
 
-export default function UserProfile() {
+export default function UserProfile(props) {
   const [user, setUser] = useState(null);
   const [userId,setUserID] = useState(null);
 
@@ -20,15 +20,17 @@ export default function UserProfile() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/users/${userId}`);
+        const response = await fetch(`http://192.168.29.123:3000/users/${userId}`);
         const userData = await response.json();
         setUser(userData);
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     };
     fetchUser();
   },[userId]);
+
+  console.log(userId);
 
   if (!user) {
     return <Text>Loading...</Text>;
@@ -48,16 +50,12 @@ export default function UserProfile() {
         <Text style={styles.text}>{user.bloodGroup}</Text>
       </View>
       <View style={styles.row}>
-        <Text style={styles.label}>Email:</Text>
-        <Text style={styles.text}>{email}</Text>
-      </View>
-      <View style={styles.row}>
         <Text style={styles.label}>Phone Number:</Text>
         <Text style={styles.text}>{user.phoneNumber}</Text>
       </View>
       <View style={styles.row}>
         <Text style={styles.label}>Address:</Text>
-        <Text style={styles.text}>{user.permanentAddress.latitude+"  "+user.permanentAddress.longitude}</Text>
+        <Text style={styles.text}>{user.permanentAddress}</Text>
       </View>
       <View style={styles.row}>
         <Text style={styles.label}>Donations:</Text>
