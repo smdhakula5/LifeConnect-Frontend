@@ -22,6 +22,7 @@ export default function UserProfile(props) {
       try {
         const response = await fetch(`http://192.168.29.123:3000/users/${userId}`);
         const userData = await response.json();
+        console.log(userData)
         setUser(userData);
       } catch (error) {
         console.log(error);
@@ -36,7 +37,7 @@ export default function UserProfile(props) {
     return <Text>Loading...</Text>;
   }
 
-  const { username, bloodGroup, email, phoneNumber, address, donations } = user;
+  const { username, bloodGroup, email, phoneNumber, location, donations } = user;
 
   return (
     <View style={styles.container}>
@@ -55,7 +56,7 @@ export default function UserProfile(props) {
       </View>
       <View style={styles.row}>
         <Text style={styles.label}>Address:</Text>
-        <Text style={styles.text}>{user.permanentAddress}</Text>
+        <Text style={styles.text}>{user.location.coordinates[0]+" "+user.location.coordinates[1]}</Text>
       </View>
       <View style={styles.row}>
         <Text style={styles.label}>Donations:</Text>

@@ -10,7 +10,10 @@ import Login from '../screens/Logins/Login';
 import SignUp from '../screens/Logins/SignUp';
 import UserProfile from '../screens/UserProfile';
 import ReceiverDashboard from '../screens/ReceiverDashboard';
+import UpdateStock from "../screens/UpdateStock";
 import Emergency from '../screens/Emergency';
+import BloodStock from '../screens/BloodStock';
+import MapMarker from '../screens/MapMarker';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,7 +59,10 @@ export default function HomeStack() {
             <Stack.Screen name="Dashboard" component={Dashboard} />
             <Stack.Screen name="UserProfile" component={UserProfile} />
             <Stack.Screen name="ReceiverDashboard" component={ReceiverDashboard} />
+            <Stack.Screen name="UpdateStock" component={UpdateStock}/>
             <Stack.Screen name="Emergency" component={Emergency} />
+            <Stack.Screen name="BloodStock" component={BloodStock}/>
+            <Stack.Screen name='MapMarker' component={MapMarker}/>
           </Stack.Navigator>
         </NavigationContainer>
       )}
