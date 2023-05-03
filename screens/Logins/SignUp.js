@@ -1,6 +1,8 @@
 
 //AIzaSyD_TW6eYj_vZurwo78v3L0c-VP2Q84KNTc
 
+
+
 import React, { useState } from "react";
 import {
   View,
@@ -11,6 +13,8 @@ import {
   Alert,
   ScrollView,
   LogBox,
+  FlatList,
+  SectionList
 } from "react-native";
 import CheckBox from "react-native-check-box";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
@@ -21,6 +25,7 @@ LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 import PasswordValidator from "password-validator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+
 export default function SignUp(props) {
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
@@ -29,7 +34,7 @@ export default function SignUp(props) {
     const [isValid, setStatus] = useState(false);
     const [bloodGroup, setBloodGroup] = useState("");
     const [bloodGroupType, setBloodGroupType] = useState("");
-  const [address, setAddress] = useState("")
+  const [address, setAddress] = useState(null)
   const [userType, setUserType] = useState(false)
 
   const schema = new PasswordValidator();
@@ -60,10 +65,6 @@ export default function SignUp(props) {
     // console.log(name)
 }
 
-function addressChanged(input){
-  setAddress(input);
-}
-
 function usernameChanged(input) {
     setUsername(input);
     // console.log(username)
@@ -74,10 +75,11 @@ function usernameChanged(input) {
     // console.log(phoneNo)
 }
 
-  function addressHandler(data, details = null){
-    console.log(data)
-    console.log(details)
+function addressHandler(data, details) {
+  setAddress(details.formatted_address);
 }
+
+
 
 function passwordChanged(input) {
     setPassword(input);
@@ -95,7 +97,7 @@ function passwordChanged(input) {
           name:name,
           phoneNumber:phoneNo,
           bloodGroup:bloodGroup.label+bloodGroupType.label,
-          permanentAddress:address,
+          location:address.description,
 
         }
         console.log(details);
@@ -115,7 +117,7 @@ function passwordChanged(input) {
               //Also set the type of user after getting response
               await AsyncStorage.setItem("username", username);
               await AsyncStorage.setItem("userType",data.userType);
-              data.userType=="donor"?navigation.navigate("Dashboard"):navigation.navigate("ReceiverDashboard");
+              data.userType=="donor"?props.navigation.navigate("Dashboard"):props.navigation.navigate("ReceiverDashboard");
             } else {
               console.log(details);
             }
@@ -129,53 +131,78 @@ function passwordChanged(input) {
             props.navigation.navigate('SignUp');
         }
     }
-    
-  return (
-      <ScrollView>
+
+return (
+  <ScrollView keyboardShouldPersistTaps="handled">
     <View style={styles.viewContainer}>
-        <Text style={styles.headerStyle}>SIGN UP</Text>
-        <View style={styles.detailsViewStyle}>
-          <Text style={styles.textStyle}>Name</Text>
-          <TextInput
-            placeholder="Enter name here"
-            placeholderTextColor={"#888888"}
-            style={styles.textInputStyle}
-            onChangeText={nameChanged}
-            fontWeight={'bold'}
-          />
-          <CheckBox style={{marginVertical: 10, padding: 9}} rightTextStyle={{color:'black'}} checkBoxColor="black" checkedCheckBoxColor="#24d2e9" onClick={()=>{setUserType(!userType)}} isChecked={userType} rightText={"I am a donor"} />
-          {userType && <View> 
-          <Text style={styles.textStyle}>Blood Group</Text>
+      <Text style={styles.headerStyle}>SIGN UP</Text>
+      <View style={styles.detailsViewStyle}>
+        <Text style={styles.textStyle}>Name</Text>
+        <TextInput
+          placeholder="Enter name here"
+          placeholderTextColor={"#888888"}
+          style={styles.textInputStyle}
+          onChangeText={nameChanged}
+          fontWeight={"bold"}
+        />
+        <CheckBox
+          style={{ marginVertical: 10, padding: 9 }}
+          rightTextStyle={{ color: "black" }}
+          checkBoxColor="black"
+          checkedCheckBoxColor="#24d2e9"
+          onClick={() => {
+            setUserType(!userType);
+          }}
+          isChecked={userType}
+          rightText={"I am a donor"}
+        />
+        {userType && (
+          <View>
+            <Text style={styles.textStyle}>Blood Group</Text>
             <View style={styles.bloodViewStyle}>
-            <Dropdown
-              style={styles.dropDownStyle}
-              data={bloodGroups}
-              labelField="label"
-              valueField={"value"}
-              onChange={(value) => {setBloodGroup(value)}}
-              value={bloodGroup}
-            />
-            <Dropdown
-              style={styles.dropDownStyle}
-              data={bloodGroupsType}
-              labelField="label"
-              valueField={"value"}
-              onChange={(value) => setBloodGroupType(value)}
-              value={bloodGroupType}
+              <Dropdown
+                style={styles.dropDownStyle}
+                data={bloodGroups}
+                labelField="label"
+                valueField={"value"}
+                onChange={(value) => {
+                  setBloodGroup(value);
+                }}
+                value={bloodGroup}
               />
+              <Dropdown
+                style={styles.dropDownStyle}
+                data={bloodGroupsType}
+                labelField="label"
+                valueField={"value"}
+                onChange={(value) => setBloodGroupType(value)}
+                value={bloodGroupType}
+              />
+            </View>
           </View>
-          </View>
-            }
-          <Text style={[styles.textStyle,{marginVertical: 10}]}> Permanent Address </Text>
-          <TextInput
-            style={styles.textInputStyle}
-            placeholder="Enter address here"
-            placeholderTextColor={"#888888"}
-            onChangeText={addressChanged}
-            fontWeight={'bold'}
-            />
-          {/* <GooglePlacesAutocomplete styles={{marginVertical: 10, padding: 9}} placeholder="Enter address here" placeholderTextColor={'#888888'} style={styles.textInputStyle} minLength={5} onPress={(item,details)=>{setAddress(item); console.log(details)}} query={{key: 'YOUR_API',language:'en'}} /> */}
-          <Text style={styles.textStyle}>Phone Number</Text>
+        )}
+        <Text style={[styles.textStyle, { marginVertical: 10 }]}>
+          Permanent Address
+        </Text>
+        <GooglePlacesAutocomplete styles={{marginVertical: 10, padding: 9}} placeholder="Enter address here" placeholderTextColor={'#888888'} style={styles.textInputStyle} minLength={5} onPress={(item,details)=>{setAddress(item); console.log(details)}} query={{key: 'AIzaSyD_TW6eYj_vZurwo78v3L0c-VP2Q84KNTc',language:'en'}} />
+      
+         {/* <View style={{ flex: 1 }}>
+      <GooglePlacesAutocomplete
+        placeholder='Enter Location'
+        fetchDetails={true}
+        onPress={(data, details = null) => {
+          console.log(data, details);
+        }}
+        query={{
+          key: 'AIzaSyD_TW6eYj_vZurwo78v3L0c-VP2Q84KNTc',
+          language: 'en',
+        }}
+        nearbyPlacesAPI='GooglePlacesSearch'
+        debounce={400}
+      />
+    </View> */}
+   
+        <Text style={styles.textStyle}>Phone Number</Text>
           <TextInput
             style={styles.textInputStyle}
             placeholder="Enter phone number here"
@@ -201,18 +228,21 @@ function passwordChanged(input) {
             onChangeText={passwordChanged}
             fontWeight={'bold'}
             />
-        </View>
-        <CustomButton onPress={handleSignup} title="Sign Up" />
+        <CustomButton
+          style={styles.signupButton}
+          title={"SIGN UP"}
+          onPress={handleSignup}
+        />
         <CustomButton
           title="Go Back"
           onPress={props.navigation.goBack}
           backgroundColor={"#2C2C2C"}
           textColor={"#FFFFFF"}
           />
+      </View>
     </View>
-        </ScrollView>
-  );
-}
+  </ScrollView>
+)};
 
 const styles = StyleSheet.create({
     viewContainer: {
@@ -252,7 +282,25 @@ const styles = StyleSheet.create({
     dropDownStyle: {
       width: "48%",
     },
+    signupButton: {
+      marginTop: 20,
+      backgroundColor: '#2196f3',
+      borderWidth: 1,
+      borderColor: '#2196f3',
+      borderRadius: 5,
+      paddingVertical: 10,
+      paddingHorizontal: 15,
+      alignItems: 'center',
+    },
   });
+
+  
+  
+  
+  
+  
+
+
   
 
 
