@@ -16,7 +16,6 @@ export default function BloodTypeInput(props) {
   const [userId, setUserID] = useState(null);
 
   useEffect(() => {
-    // also fetch usertype from Asyncstorage
     AsyncStorage.getItem('username')
       .then(value => {
         if (value) {
@@ -36,7 +35,6 @@ export default function BloodTypeInput(props) {
   };
 
   const handleSubmit = () => {
-    // Do something with bloodTypes state, e.g. save to database
     fetch(`http://192.168.29.123:3000/users/${userId}/update`, {
       method: 'POST',
       headers: {

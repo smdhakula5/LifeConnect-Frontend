@@ -1,9 +1,5 @@
 
-//AIzaSyD_TW6eYj_vZurwo78v3L0c-VP2Q84KNTc
-
-
-
-import React, { useState } from "react";
+import React, { useState,useEffect,useRef } from "react";
 import {
   View,
   Text,
@@ -14,16 +10,59 @@ import {
   ScrollView,
   LogBox,
   FlatList,
-  SectionList
+  SectionList,
+  Platform,
 } from "react-native";
 import CheckBox from "react-native-check-box";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Dropdown } from "react-native-element-dropdown";
 import CustomButton from "../../components/CustomButton";
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
 import PasswordValidator from "password-validator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import config from "../../config";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
+async function registerForPushNotificationsAsync() {
+  let token;
+  if (Device.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token);
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  return token;
+}
 
 
 export default function SignUp(props) {
@@ -36,6 +75,27 @@ export default function SignUp(props) {
     const [bloodGroupType, setBloodGroupType] = useState("");
   const [address, setAddress] = useState(null)
   const [userType, setUserType] = useState(false)
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
+  useEffect(() => {
+    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      setNotification(notification);
+    });
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log(response);
+    });
+
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
 
   const schema = new PasswordValidator();
 
@@ -62,17 +122,14 @@ export default function SignUp(props) {
     
     function nameChanged(input) {
         setName(input);
-    // console.log(name)
 }
 
 function usernameChanged(input) {
     setUsername(input);
-    // console.log(username)
   }
   
   function phoneNumberChanged(input) {
     setPhoneNo(input);
-    // console.log(phoneNo)
 }
 
 function addressHandler(data, details) {
@@ -83,14 +140,9 @@ function addressHandler(data, details) {
 
 function passwordChanged(input) {
     setPassword(input);
-    // if(schema.validate(password)){
-        //   setStatus(true);
-        // }
-        // console.log(password)
     }
     
     async function handleSignup(){
-        //API for hitting server and getting response
         const details = {
           userName:username,
           password:password,
@@ -98,7 +150,7 @@ function passwordChanged(input) {
           phoneNumber:phoneNo,
           bloodGroup:bloodGroup.label+bloodGroupType.label,
           location:address.description,
-
+          pushToken:expoPushToken,
         }
         console.log(details);
         if(schema.validate(password)){
@@ -114,7 +166,6 @@ function passwordChanged(input) {
             const data = await response.json();
       
             if (data.status === true) {
-              //Also set the type of user after getting response
               await AsyncStorage.setItem("username", username);
               await AsyncStorage.setItem("userType",data.userType);
               data.userType=="donor"?props.navigation.navigate("Dashboard"):props.navigation.navigate("ReceiverDashboard");
@@ -125,7 +176,6 @@ function passwordChanged(input) {
             console.error(error);
           }
 
-            // props.navigation.navigate('Dashboard');
         }
         else{
             props.navigation.navigate('SignUp');
@@ -184,24 +234,7 @@ return (
         <Text style={[styles.textStyle, { marginVertical: 10 }]}>
           Permanent Address
         </Text>
-        <GooglePlacesAutocomplete styles={{marginVertical: 10, padding: 9}} placeholder="Enter address here" placeholderTextColor={'#888888'} style={styles.textInputStyle} minLength={5} onPress={(item,details)=>{setAddress(item); console.log(details)}} query={{key: 'AIzaSyD_TW6eYj_vZurwo78v3L0c-VP2Q84KNTc',language:'en'}} />
-      
-         {/* <View style={{ flex: 1 }}>
-      <GooglePlacesAutocomplete
-        placeholder='Enter Location'
-        fetchDetails={true}
-        onPress={(data, details = null) => {
-          console.log(data, details);
-        }}
-        query={{
-          key: 'AIzaSyD_TW6eYj_vZurwo78v3L0c-VP2Q84KNTc',
-          language: 'en',
-        }}
-        nearbyPlacesAPI='GooglePlacesSearch'
-        debounce={400}
-      />
-    </View> */}
-   
+        <GooglePlacesAutocomplete styles={{marginVertical: 10, padding: 9}} placeholder="Enter address here" placeholderTextColor={'#888888'} style={styles.textInputStyle} minLength={5} onPress={(item,details)=>{setAddress(item); console.log(details)}} query={{key: config.API_KEY,language:'en'}} />
         <Text style={styles.textStyle}>Phone Number</Text>
           <TextInput
             style={styles.textInputStyle}
