@@ -7,7 +7,6 @@ export default function UserProfile(props) {
   const [userId,setUserID] = useState(null);
 
   useEffect(()=>{
-    //also fetch usertype from Asyncstorage
     AsyncStorage.getItem('username').then((value)=>{
         if(value){
             setUserID(value);

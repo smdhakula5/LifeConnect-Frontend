@@ -110,7 +110,6 @@ export default function BloodTypeList(props) {
   const [markers, setMarkers] = useState([]);
 
   useEffect(() => {
-    //also fetch usertype from Asyncstorage
     AsyncStorage.getItem("username")
       .then((value) => {
         if (value) {
@@ -157,7 +156,6 @@ export default function BloodTypeList(props) {
           </TouchableOpacity>
         ))}
       </View>
-      {/* {markers.length > 0 && <MapMarker locations={markers} />} */}
     </View>
   );
 }
