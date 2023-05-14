@@ -35,7 +35,8 @@ export default function BloodTypeInput(props) {
   };
 
   const handleSubmit = () => {
-    fetch(`http://192.168.29.123:3000/users/${userId}/update`, {
+    fetch(`
+    https://shy-fly-crown.cyclic.app/users/${userId}/update`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

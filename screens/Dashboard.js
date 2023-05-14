@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomButton from "../components/CustomButton";
+import config from '../config';
+import BackgroundLocation from '../BackgroundLocation';
 
 
 export default function Dashboard(props){
@@ -30,6 +32,22 @@ export default function Dashboard(props){
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
     }
+
+    function getCoords(){
+        const API_KEY = config.API_KEY;
+        const url = `https://www.googleapis.com/geolocation/v1/geolocate?key=${API_KEY}`;
+        fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        }
+        })
+        .then(response => response.json())
+        .then(data => {
+        console.log(data.location);
+        })
+        .catch(error => console.error(error));
+        }
 
     return(
         <View style={styles.container}>

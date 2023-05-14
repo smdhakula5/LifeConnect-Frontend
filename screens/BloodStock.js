@@ -20,7 +20,8 @@ export default function BloodStock(props) {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`http://192.168.29.123:3000/users/${userId}/check`);
+        const response = await fetch(`
+        https://shy-fly-crown.cyclic.app/users/${userId}/check`);
         const userData = await response.json();
         console.log(userData);
         setBloodTypes(userData.quantities);

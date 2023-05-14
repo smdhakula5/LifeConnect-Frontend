@@ -19,7 +19,8 @@ export default function UserProfile(props) {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`http://192.168.29.123:3000/users/${userId}`);
+        const response = await fetch(`
+        https://shy-fly-crown.cyclic.app/users/${userId}`);
         const userData = await response.json();
         console.log(userData)
         setUser(userData);
