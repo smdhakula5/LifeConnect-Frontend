@@ -1,72 +1,27 @@
-/*
-import { View, Text, StyleSheet } from 'react-native';
-import CustomButton from "../components/CustomButton";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
-export default function Dashboard(props){
-
-    const handleLogout = ()=>{
-        AsyncStorage.removeItem('username')
-    .then(() => {
-        // setIsLoggedIn(false);
-        console.log('Username removed from AsyncStorage');
-        navigation.navigate('LoginHome');
-    })
-    .catch((err) => {
-        console.log(err);
-    });
-
-    }
-    return(
-        <View style={styles.container}>
-            <View style={styles.buttonContainer}>
-                <CustomButton onPress={handleLogout} title={"Logout"} />
-            </View>
-            <Text> Dashboard </Text>
-        </View>
-    )
-}
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    buttonContainer: {
-        position: 'absolute',
-        top: 0,
-        right: 0,
-        margin: 10,
-    }
-})
-*/
-
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
-import CustomButton from "../components/CustomButton";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useState } from 'react';
+import CustomButton from "../components/CustomButton";
+// import config from '../config';
+import BackgroundLocation from '../BackgroundLocation';
+
 
 export default function Dashboard(props){
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-    const handleLogout = ()=>{
-        // AsyncStorage.removeItem('username')
-        // .then(() => {
-        //     console.log('Username removed from AsyncStorage');
-        //     navigation.navigate('LoginHome');
-        // })
-        // .catch((err) => {
-        //     console.log(err);
-        // });
-        props.navigation.navigate('LoginHome');
+    const handleLogout = async()=>{
+        try {
+            await AsyncStorage.clear();
+            console.log('Username removed from AsyncStorage');
+            props.navigation.navigate('LoginHome');
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     const handleProfile = ()=>{
         props.navigation.navigate('UserProfile');
-        // code to show user profile
     }
 
     const dropdownItems = [
@@ -77,6 +32,22 @@ export default function Dashboard(props){
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
     }
+
+    function getCoords(){
+        const API_KEY = config.API_KEY;
+        const url = `https://www.googleapis.com/geolocation/v1/geolocate?key=${API_KEY}`;
+        fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        }
+        })
+        .then(response => response.json())
+        .then(data => {
+        console.log(data.location);
+        })
+        .catch(error => console.error(error));
+        }
 
     return(
         <View style={styles.container}>
@@ -93,9 +64,6 @@ export default function Dashboard(props){
                     )}
                 />
             )}
-            {/* <View style={styles.buttonContainer}>
-                <CustomButton onPress={handleLogout} title={"Logout"} />
-            </View> */}
             <Text style={styles.title}> Dashboard </Text>
         </View>
     )
@@ -145,7 +113,26 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         color: '#1E90FF',
     },
+    buttonStyle: {
+        padding: 10,
+        marginVertical: 10,
+        width: "100%",
+        borderRadius: 5,
+        backgroundColor: '#2196f3',
+        alignItems: "center"
+    },
+    buttonText: {
+        fontSize: 20,
+        color: "#ffffff"
+    }
 })
+
+
+
+
+
+
+
 
 
 

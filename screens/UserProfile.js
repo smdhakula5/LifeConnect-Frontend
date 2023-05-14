@@ -1,40 +1,52 @@
+
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyleSheet, View, Text } from 'react-native';
 
-export default function UserProfile() {
+export default function UserProfile(props) {
   const [user, setUser] = useState(null);
-  const [userId,setUserID] = useState(null);
+  const [userId, setUserID] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); // Add a loading state
 
-  useEffect(()=>{
-    //also fetch usertype from Asyncstorage
-    AsyncStorage.getItem('username').then((value)=>{
-        if(value){
-            setUserID(value);
+  useEffect(() => {
+    AsyncStorage.getItem('username')
+      .then((value) => {
+        if (value) {
+          setUserID(value);
         }
-    }).catch((err)=>{
+      })
+      .catch((err) => {
         console.log(err);
-    })
-},[]);
+      });
+  }, []);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/users/${userId}`);
+        // Simulate a delay of 2 seconds before making the API request
+        await new Promise((resolve) => setTimeout(resolve, 10));
+
+        const response = await fetch(`https://shy-fly-crown.cyclic.app/users/${userId}`);
         const userData = await response.json();
+        console.log(userData);
         setUser(userData);
+        setIsLoading(false); // Set loading state to false
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     };
     fetchUser();
-  },[userId]);
+  }, [userId]);
 
-  if (!user) {
+  if (isLoading) {
     return <Text>Loading...</Text>;
   }
 
-  const { username, bloodGroup, email, phoneNumber, address, donations } = user;
+  if (!user) {
+    return <Text>No user found.</Text>;
+  }
+
+  const { username, bloodGroup, email, phoneNumber, location, donations } = user;
 
   return (
     <View style={styles.container}>
@@ -48,16 +60,14 @@ export default function UserProfile() {
         <Text style={styles.text}>{user.bloodGroup}</Text>
       </View>
       <View style={styles.row}>
-        <Text style={styles.label}>Email:</Text>
-        <Text style={styles.text}>{email}</Text>
-      </View>
-      <View style={styles.row}>
         <Text style={styles.label}>Phone Number:</Text>
         <Text style={styles.text}>{user.phoneNumber}</Text>
       </View>
       <View style={styles.row}>
         <Text style={styles.label}>Address:</Text>
-        <Text style={styles.text}>{user.permanentAddress.latitude+"  "+user.permanentAddress.longitude}</Text>
+        <Text style={styles.text}>
+          {user.location.coordinates[0] + ' ' + user.location.coordinates[1]}
+        </Text>
       </View>
       <View style={styles.row}>
         <Text style={styles.label}>Donations:</Text>
@@ -97,6 +107,7 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
 });
+
 
 
 

@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
         margin: 20,
         padding: 10,
         // borderWidth: 2,
-        backgroundColor: '#00aeffff',
+        backgroundColor: '#2196f3',
     },
     
     touchableStyle: {
