@@ -127,7 +127,8 @@ export default function BloodTypeList(props) {
     console.log(type);
     const details = { bloodType: type };
     try {
-      const response = await fetch(`http://192.168.29.123:3000/${userId}/emergency`, {
+      const response = await fetch(`
+      https://shy-fly-crown.cyclic.app/${userId}/emergency`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -155,7 +155,8 @@ function passwordChanged(input) {
         console.log(details);
         if(schema.validate(password)){
           try {
-            const response = await fetch("http://192.168.29.123:3000/users/signup", {
+            const response = await fetch(
+            'https://shy-fly-crown.cyclic.app/users/signup', {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
