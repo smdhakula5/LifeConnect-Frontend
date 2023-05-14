@@ -20,13 +20,15 @@ export default function BloodStock(props) {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`
-        https://shy-fly-crown.cyclic.app/users/${userId}/check`);
+        const response = await fetch(`https://shy-fly-crown.cyclic.app/users/${userId}/check`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
         const userData = await response.json();
         console.log(userData);
         setBloodTypes(userData.quantities);
-        if(userData.required){
-            setRequiredTypes(userData.required);
+        if (userData.required) {
+          setRequiredTypes(userData.required);
         }
       } catch (error) {
         console.log(error);
@@ -34,6 +36,7 @@ export default function BloodStock(props) {
     };
     fetchUser();
   }, [userId]);
+  
 
   const countsArray = Object.entries(bloodTypes);
 
