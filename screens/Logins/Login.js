@@ -1,107 +1,4 @@
 
-/*
-import { useState } from "react";
-import { View, Text, StyleSheet, Modal, TextInput, Alert, ScrollView } from "react-native";
-import CustomButton from "../../components/CustomButton";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
-
-
-
-
-export default function Login(props){
-
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
-    const [verified,setVerified] = useState(false);
-    function usernameChanged(input){
-        setUsername(input)
-        // console.log(username)
-    }
-
-    function passwordChanged(input){
-        setPassword(input)
-        // console.log(password)
-    }
-
-    async function loginPressed(){
-        const details = {
-            username: username,
-            password: password
-        }
-        
-        await fetch('http://localhost:3000',{
-            method:'POST',
-            headers: {
-                'Content-Type': 'application/json'
-              },
-            body: JSON.stringify(details)})
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            if(data.status===true){
-               AsyncStorage.setItem('username', username);
-               //setVerified(true);
-               navigation.navigate('Dashboard');
-            }
-            else{
-               navigation.navigate('LoginHome');
-            }
-        })
-        .catch(error => console.error(error));
-    }
-
-    return(
-            <View style={styles.viewContainer}>
-            <ScrollView>
-            <Text style={styles.headerStyle}> LOGIN </Text>
-            <View style={styles.detailsViewStyle}>
-            <Text style={styles.textStyle}> Username </Text>
-            <TextInput placeholder="Enter username here" placeholderTextColor={'#888888'} style={styles.textInputStyle} onChangeText={usernameChanged} />
-            <Text style={styles.textStyle}> Password </Text>
-            <TextInput placeholder="Enter password here" placeholderTextColor={'#888888'} style={styles.textInputStyle} secureTextEntry={true} onChangeText={passwordChanged} />
-            </View>
-            <CustomButton title='Login' onPress={loginPressed} />
-            <CustomButton title='Go Back' onPress={props.navigation.goBack}/>
-        </ScrollView>
-        </View>
-    )
-}
-
-const styles = StyleSheet.create({
-    viewContainer: {
-        // justifyContent: 'center',
-        // alignItems: 'center',
-        flex: 1,
-        // height: 100,
-        backgroundColor: '#743030',
-    },
-    headerStyle: {
-        marginVertical: 30,
-        padding: 30,
-        color: '#ffffff',
-        fontSize: 30,
-    },
-    textStyle: {
-        fontSize: 17,
-        color: '#ffffff',
-    },
-    detailsViewStyle: {
-        margin: 10,
-        padding: 10,
-    },
-    textInputStyle: {
-        marginVertical: 10,
-        padding: 5,
-        borderWidth: 2,
-        borderColor: '#ffffff',
-        backgroundColor: 'white',
-    }
-})
-
-*/
-
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Modal, TextInput, Alert, ScrollView} from "react-native";
 import CustomButton from "../../components/CustomButton";
@@ -126,7 +23,8 @@ export default function Login(props) {
     };
 
     try {
-      const response = await fetch("http://192.168.29.123:3000/users/login", {
+      const response = await fetch(
+        'https://shy-fly-crown.cyclic.app/users/login', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -140,8 +38,6 @@ export default function Login(props) {
       if (data.status === true) {
         await AsyncStorage.setItem("username", username);
         await AsyncStorage.setItem("userType",data.userType);
-        // setVerified(true);
-        //if it doesn't work on webapp, remove the props in navigation
         if(data.userType==="donor"){
           props.navigation.navigate("Dashboard");
         }

@@ -1,7 +1,5 @@
 
-//AIzaSyD_TW6eYj_vZurwo78v3L0c-VP2Q84KNTc
-
-import React, { useState } from "react";
+import React, { useState,useEffect,useRef } from "react";
 import {
   View,
   Text,
@@ -11,15 +9,61 @@ import {
   Alert,
   ScrollView,
   LogBox,
+  FlatList,
+  SectionList,
+  Platform,
 } from "react-native";
 import CheckBox from "react-native-check-box";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Dropdown } from "react-native-element-dropdown";
 import CustomButton from "../../components/CustomButton";
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
 import PasswordValidator from "password-validator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import config from "../../config";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
+async function registerForPushNotificationsAsync() {
+  let token;
+  if (Device.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token);
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  return token;
+}
+
 
 export default function SignUp(props) {
     const [name, setName] = useState("");
@@ -29,8 +73,29 @@ export default function SignUp(props) {
     const [isValid, setStatus] = useState(false);
     const [bloodGroup, setBloodGroup] = useState("");
     const [bloodGroupType, setBloodGroupType] = useState("");
-  const [address, setAddress] = useState("")
+  const [address, setAddress] = useState(null)
   const [userType, setUserType] = useState(false)
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
+  useEffect(() => {
+    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      setNotification(notification);
+    });
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log(response);
+    });
+
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
 
   const schema = new PasswordValidator();
 
@@ -57,51 +122,41 @@ export default function SignUp(props) {
     
     function nameChanged(input) {
         setName(input);
-    // console.log(name)
-}
-
-function addressChanged(input){
-  setAddress(input);
 }
 
 function usernameChanged(input) {
     setUsername(input);
-    // console.log(username)
   }
   
   function phoneNumberChanged(input) {
     setPhoneNo(input);
-    // console.log(phoneNo)
 }
 
-  function addressHandler(data, details = null){
-    console.log(data)
-    console.log(details)
+function addressHandler(data, details) {
+  setAddress(details.formatted_address);
 }
+
+
 
 function passwordChanged(input) {
     setPassword(input);
-    // if(schema.validate(password)){
-        //   setStatus(true);
-        // }
-        // console.log(password)
     }
     
     async function handleSignup(){
-        //API for hitting server and getting response
         const details = {
           userName:username,
           password:password,
           name:name,
           phoneNumber:phoneNo,
           bloodGroup:bloodGroup.label+bloodGroupType.label,
-          permanentAddress:address,
-
+          location:address.description,
+          pushToken:expoPushToken,
         }
         console.log(details);
         if(schema.validate(password)){
           try {
-            const response = await fetch("http://192.168.29.123:3000/users/signup", {
+            const response = await fetch(
+            'https://shy-fly-crown.cyclic.app/users/signup', {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -112,10 +167,9 @@ function passwordChanged(input) {
             const data = await response.json();
       
             if (data.status === true) {
-              //Also set the type of user after getting response
               await AsyncStorage.setItem("username", username);
               await AsyncStorage.setItem("userType",data.userType);
-              data.userType=="donor"?navigation.navigate("Dashboard"):navigation.navigate("ReceiverDashboard");
+              data.userType=="donor"?props.navigation.navigate("Dashboard"):props.navigation.navigate("ReceiverDashboard");
             } else {
               console.log(details);
             }
@@ -123,59 +177,66 @@ function passwordChanged(input) {
             console.error(error);
           }
 
-            // props.navigation.navigate('Dashboard');
         }
         else{
             props.navigation.navigate('SignUp');
         }
     }
-    
-  return (
-      <ScrollView>
+
+return (
+  <ScrollView keyboardShouldPersistTaps="handled">
     <View style={styles.viewContainer}>
-        <Text style={styles.headerStyle}>SIGN UP</Text>
-        <View style={styles.detailsViewStyle}>
-          <Text style={styles.textStyle}>Name</Text>
-          <TextInput
-            placeholder="Enter name here"
-            placeholderTextColor={"#888888"}
-            style={styles.textInputStyle}
-            onChangeText={nameChanged}
-            fontWeight={'bold'}
-          />
-          <CheckBox style={{marginVertical: 10, padding: 9}} rightTextStyle={{color:'black'}} checkBoxColor="black" checkedCheckBoxColor="#24d2e9" onClick={()=>{setUserType(!userType)}} isChecked={userType} rightText={"I am a donor"} />
-          {userType && <View> 
-          <Text style={styles.textStyle}>Blood Group</Text>
+      <Text style={styles.headerStyle}>SIGN UP</Text>
+      <View style={styles.detailsViewStyle}>
+        <Text style={styles.textStyle}>Name</Text>
+        <TextInput
+          placeholder="Enter name here"
+          placeholderTextColor={"#888888"}
+          style={styles.textInputStyle}
+          onChangeText={nameChanged}
+          fontWeight={"bold"}
+        />
+        <CheckBox
+          style={{ marginVertical: 10, padding: 9 }}
+          rightTextStyle={{ color: "black" }}
+          checkBoxColor="black"
+          checkedCheckBoxColor="#24d2e9"
+          onClick={() => {
+            setUserType(!userType);
+          }}
+          isChecked={userType}
+          rightText={"I am a donor"}
+        />
+        {userType && (
+          <View>
+            <Text style={styles.textStyle}>Blood Group</Text>
             <View style={styles.bloodViewStyle}>
-            <Dropdown
-              style={styles.dropDownStyle}
-              data={bloodGroups}
-              labelField="label"
-              valueField={"value"}
-              onChange={(value) => {setBloodGroup(value)}}
-              value={bloodGroup}
-            />
-            <Dropdown
-              style={styles.dropDownStyle}
-              data={bloodGroupsType}
-              labelField="label"
-              valueField={"value"}
-              onChange={(value) => setBloodGroupType(value)}
-              value={bloodGroupType}
+              <Dropdown
+                style={styles.dropDownStyle}
+                data={bloodGroups}
+                labelField="label"
+                valueField={"value"}
+                onChange={(value) => {
+                  setBloodGroup(value);
+                }}
+                value={bloodGroup}
               />
+              <Dropdown
+                style={styles.dropDownStyle}
+                data={bloodGroupsType}
+                labelField="label"
+                valueField={"value"}
+                onChange={(value) => setBloodGroupType(value)}
+                value={bloodGroupType}
+              />
+            </View>
           </View>
-          </View>
-            }
-          <Text style={[styles.textStyle,{marginVertical: 10}]}> Permanent Address </Text>
-          <TextInput
-            style={styles.textInputStyle}
-            placeholder="Enter address here"
-            placeholderTextColor={"#888888"}
-            onChangeText={addressChanged}
-            fontWeight={'bold'}
-            />
-          {/* <GooglePlacesAutocomplete styles={{marginVertical: 10, padding: 9}} placeholder="Enter address here" placeholderTextColor={'#888888'} style={styles.textInputStyle} minLength={5} onPress={(item,details)=>{setAddress(item); console.log(details)}} query={{key: 'YOUR_API',language:'en'}} /> */}
-          <Text style={styles.textStyle}>Phone Number</Text>
+        )}
+        <Text style={[styles.textStyle, { marginVertical: 10 }]}>
+          Permanent Address
+        </Text>
+        <GooglePlacesAutocomplete styles={{marginVertical: 10, padding: 9}} placeholder="Enter address here" placeholderTextColor={'#888888'} style={styles.textInputStyle} minLength={5} onPress={(item,details)=>{setAddress(item); console.log(details)}} query={{key: config.API_KEY,language:'en'}} />
+        <Text style={styles.textStyle}>Phone Number</Text>
           <TextInput
             style={styles.textInputStyle}
             placeholder="Enter phone number here"
@@ -201,18 +262,21 @@ function passwordChanged(input) {
             onChangeText={passwordChanged}
             fontWeight={'bold'}
             />
-        </View>
-        <CustomButton onPress={handleSignup} title="Sign Up" />
+        <CustomButton
+          style={styles.signupButton}
+          title={"SIGN UP"}
+          onPress={handleSignup}
+        />
         <CustomButton
           title="Go Back"
           onPress={props.navigation.goBack}
           backgroundColor={"#2C2C2C"}
           textColor={"#FFFFFF"}
           />
+      </View>
     </View>
-        </ScrollView>
-  );
-}
+  </ScrollView>
+)};
 
 const styles = StyleSheet.create({
     viewContainer: {
@@ -252,7 +316,25 @@ const styles = StyleSheet.create({
     dropDownStyle: {
       width: "48%",
     },
+    signupButton: {
+      marginTop: 20,
+      backgroundColor: '#2196f3',
+      borderWidth: 1,
+      borderColor: '#2196f3',
+      borderRadius: 5,
+      paddingVertical: 10,
+      paddingHorizontal: 15,
+      alignItems: 'center',
+    },
   });
+
+  
+  
+  
+  
+  
+
+
   
 
 
