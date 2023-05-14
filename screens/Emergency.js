@@ -127,14 +127,16 @@ export default function BloodTypeList(props) {
     console.log(type);
     const details = { bloodType: type };
     try {
-      const response = await fetch(`
-      https://shy-fly-crown.cyclic.app/${userId}/emergency`, {
+      const response = await fetch(`https://shy-fly-crown.cyclic.app/${userId}/emergency`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(details),
       });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
       const data = await response.json();
       props.navigation.navigate('MapMarker', { locations: data });
       setMarkers(data);
@@ -142,6 +144,7 @@ export default function BloodTypeList(props) {
       console.log(error);
     }
   };
+  
 
   return (
     <View style={styles.container}>

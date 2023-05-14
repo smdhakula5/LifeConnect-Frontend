@@ -34,19 +34,29 @@ export default function BloodTypeInput(props) {
     });
   };
 
-  const handleSubmit = () => {
-    fetch(`
-    https://shy-fly-crown.cyclic.app/users/${userId}/update`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ bloodTypes: bloodTypes }),
-    })
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.log(error));
+  const handleSubmit = async () => {
+    try {
+      console.log(userId);
+  
+      const response = await fetch(`https://shy-fly-crown.cyclic.app/users/${userId}/update`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ bloodTypes: bloodTypes }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
+  
 
   return (
     <View style={styles.container}>
