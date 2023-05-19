@@ -21,16 +21,19 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.keyur12.lifeconnect"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "4b57e92d-7ade-4994-b976-6dc2579407e2"
+        "projectId": "73d12f38-0c97-4402-bd49-6e6fd76ad632"
       }
     },
-    "owner": "smdhakula5"
+    "plugins": [
+      "react-native-background-geolocation"
+    ]
   }
 }

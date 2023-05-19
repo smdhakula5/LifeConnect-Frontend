@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomButton from "../components/CustomButton";
-// import config from '../config';
-import BackgroundLocation from '../BackgroundLocation';
+import config from '../config';
 
 
 export default function Dashboard(props){
@@ -14,7 +13,7 @@ export default function Dashboard(props){
         try {
             await AsyncStorage.clear();
             console.log('Username removed from AsyncStorage');
-            props.navigation.navigate('LoginHome');
+            props.navigation.replace('LoginHome');
         } catch (e) {
             console.log(e);
         }

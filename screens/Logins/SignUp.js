@@ -16,14 +16,15 @@ import {
 import CheckBox from "react-native-check-box";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Dropdown } from "react-native-element-dropdown";
-import CustomButton from "../../components/CustomButton";
-import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
-LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-
 import PasswordValidator from "password-validator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-// import config from "../../config";
+
+import CustomButton from "../../components/CustomButton";
+import * as Device from 'expo-device';
+import config from "../../config";
+
+LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -60,7 +61,7 @@ async function registerForPushNotificationsAsync() {
       lightColor: '#FF231F7C',
     });
   }
-
+  console.log(token)
   return token;
 }
 
