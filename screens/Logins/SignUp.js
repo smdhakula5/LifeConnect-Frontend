@@ -81,21 +81,28 @@ export default function SignUp(props) {
   const responseListener = useRef();
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      setNotification(notification);
+      // Handle incoming notification here
+      console.log('Notification received:', notification);
     });
-
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log(response);
-    });
-
+  
     return () => {
       Notifications.removeNotificationSubscription(notificationListener.current);
+    };
+  }, []);
+  
+  useEffect(() => {
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      // Handle notification press here
+      console.log('Notification pressed:', response);
+      props.navigation.navigate('UserProfile'); // Replace 'YourScreen' with the desired screen name
+    });
+  
+    return () => {
       Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
+  
 
   const schema = new PasswordValidator();
 

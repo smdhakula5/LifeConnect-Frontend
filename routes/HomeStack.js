@@ -14,6 +14,8 @@ import UpdateStock from "../screens/UpdateStock";
 import Emergency from '../screens/Emergency';
 import BloodStock from '../screens/BloodStock';
 import MapMarker from '../screens/MapMarker';
+import AcceptRequest from '../screens/AcceptRequest';
+import Destination from '../screens/Destination';
 
 const Stack = createNativeStackNavigator();
 
@@ -63,6 +65,8 @@ export default function HomeStack() {
             <Stack.Screen name="Emergency" component={Emergency} />
             <Stack.Screen name="BloodStock" component={BloodStock}/>
             <Stack.Screen name='MapMarker' component={MapMarker}/>
+            <Stack.Screen name='AcceptRequest' component={AcceptRequest}/>
+            <Stack.Screen name='Destination' component={Destination}/>
           </Stack.Navigator>
         </NavigationContainer>
       )}
