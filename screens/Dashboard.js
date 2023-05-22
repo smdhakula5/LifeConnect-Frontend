@@ -3,12 +3,68 @@ import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomButton from "../components/CustomButton";
 import config from '../config';
+import BackgroundLocation from '../BackgroundLocation';
+import * as Location from 'expo-location';
+import * as TaskManager from 'expo-task-manager';
+import * as Notifications from 'expo-notifications';
 
-
+TaskManager.defineTask('locationTask', async ({ data, error }) => {
+    if (error) {
+      console.log('Error occurred in background location task:', error);
+      return;
+    }
+  
+    if (data) {
+      const { locations } = data;
+      console.log('Received background locations:', locations);
+  
+      // Send location updates to the server or perform other actions
+    }
+  });
+  
 export default function Dashboard(props){
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+    useEffect(() => {
+        const requestLocationPermission = async () => {
+          try {
+            const { status } = await Location.requestBackgroundPermissionsAsync();
+            if (status !== 'granted') {
+              console.log('Background location permission not granted');
+              return;
+            }
+    
+            await Location.startLocationUpdatesAsync('locationTask', {
+              accuracy: Location.Accuracy.Balanced,
+              distanceInterval: 0,
+              timeInterval: 60000,
+            });
+    
+            console.log('Started location updates in the background');
+          } catch (error) {
+            console.log('Error occurred during location request:', error);
+          }
+        };
+    
+        requestLocationPermission();
+      }, []);
+    
+      useEffect(() => {
+        const notificationHandler = Notifications.addNotificationResponseReceivedListener(
+          (response) => {
+            const { data } = response.notification.request.content;
+            console.log('Notification data:', data);
+    
+            props.navigation.navigate('AcceptRequest', { longitude: data.longitude, latitude: data.latitude });
+          }
+        );
+    
+        return () => {
+          Notifications.removeNotificationSubscription(notificationHandler);
+        };
+      }, [props.navigation]);
+      
+        // Rest of the code...
     const handleLogout = async()=>{
         try {
             await AsyncStorage.clear();
@@ -22,6 +78,7 @@ export default function Dashboard(props){
     const handleProfile = ()=>{
         props.navigation.navigate('UserProfile');
     }
+      
 
     const dropdownItems = [
         { label: 'Profile', onPress: handleProfile },

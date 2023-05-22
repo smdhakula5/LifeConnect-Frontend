@@ -6,6 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
+
 LogBox.ignoreLogs(["ViewPropTypes will be removed from React Native"]);
 
 export default function LoginHome(props){
@@ -16,7 +17,7 @@ export default function LoginHome(props){
     function handleSignup(){
         props.navigation.navigate('SignUp')
     }
-
+      
     return(
         <ImageBackground source={require('../assets/images/LifeConnect.png')} style={styles.imageStyle}>
             <View style={styles.outerviewContainer}>
