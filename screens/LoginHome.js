@@ -39,6 +39,44 @@ export default function LoginHome(props){
     )
 }
 
+// const styles = StyleSheet.create({
+//     outerviewContainer: {
+//         // margin: 10,
+//         // padding: 10,
+//         // justifyContent: 'center',
+//         // alignItems: 'center',
+//         // flexDirection: 'column',
+//         flex: 1,
+//         // borderWidth: 2,
+//         backgroundColor: '#6a0094d0',
+//     },
+//     scrollStyle: {
+//         alignItems: 'center',
+//     },
+
+//     innerViewContainer: {
+//         margin: 10,
+//         padding: 10,
+//     },
+//     headerText: {
+//         fontSize: 27,
+//         padding: 5,
+//         color: '#ffffff',
+//         // marginHorizontal: 40,
+//         // marginLeft: 90,
+//     },
+//     imageStyle: {
+//         // flex: 1,
+//         // resizeMode: "cover",
+//         // justifyContent: "center",
+//         margin: 10,
+//         padding: 10,
+//         width: 100,
+//         height: 150,
+//         // resizeMode: "cover"
+//     }
+// })
+
 const styles = StyleSheet.create({
     imageStyle: {
         flex: 1,

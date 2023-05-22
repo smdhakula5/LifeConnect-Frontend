@@ -69,7 +69,7 @@ export default function Dashboard(props){
         try {
             await AsyncStorage.clear();
             console.log('Username removed from AsyncStorage');
-            props.navigation.navigate('LoginHome');
+            props.navigation.replace('LoginHome');
         } catch (e) {
             console.log(e);
         }

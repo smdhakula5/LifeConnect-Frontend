@@ -39,10 +39,12 @@ export default function Login(props) {
         await AsyncStorage.setItem("username", username);
         await AsyncStorage.setItem("userType",data.userType);
         if(data.userType==="donor"){
-          props.navigation.navigate("Dashboard");
+          props.navigation.popToTop();
+          props.navigation.replace("Dashboard");
         }
         else if(data.userType==="receiver"){
-          props.navigation.navigate("ReceiverDashboard");
+          props.navigation.popToTop();
+          props.navigation.replace("ReceiverDashboard");
         }
       } else {
         props.navigation.navigate("LoginHome");
