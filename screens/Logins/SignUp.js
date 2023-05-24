@@ -29,8 +29,8 @@ LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
   }),
 });
 
@@ -151,6 +151,7 @@ function passwordChanged(input) {
     }
     
     async function handleSignup(){
+      const token = await registerForPushNotificationsAsync();
         const details = {
           userName:username,
           password:password,
@@ -158,7 +159,7 @@ function passwordChanged(input) {
           phoneNumber:phoneNo,
           bloodGroup:bloodGroup.label+bloodGroupType.label,
           location:address.description,
-          pushToken:expoPushToken,
+          pushToken:token,
         }
         console.log(details);
         if(schema.validate(password)){
@@ -177,7 +178,8 @@ function passwordChanged(input) {
             if (data.status === true) {
               await AsyncStorage.setItem("username", username);
               await AsyncStorage.setItem("userType",data.userType);
-              data.userType=="donor"?props.navigation.navigate("Dashboard"):props.navigation.navigate("ReceiverDashboard");
+              props.navigation.popToTop();
+              data.userType=="donor"?props.navigation.replace("Dashboard"):props.navigation.replace("ReceiverDashboard");
             } else {
               console.log(details);
             }

@@ -120,7 +120,7 @@ export default function Dashboard(props){
                     )}
                 />
             )}
-            <Text style={styles.title}> Dashboard </Text>
+            <Text style={styles.title}> Welcome </Text>
         </View>
     )
 }
