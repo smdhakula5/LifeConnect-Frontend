@@ -9,10 +9,11 @@ export default function AcceptRequest(props) {
     props.navigation.navigate('Destination', { longitude, latitude });
   }
   return (
+    <View style={styles.background}>
     <ImageBackground
       source={require('../assets/images/Tommy.jpeg')}
-      style={styles.background}
-      resizeMode="cover"
+      style={styles.image}
+      resizeMode='cover'
     >
       <View style={styles.container}>
         <TouchableOpacity style={styles.button} onPress={handleClick}>
@@ -20,6 +21,7 @@ export default function AcceptRequest(props) {
         </TouchableOpacity>
       </View>
     </ImageBackground>
+    </View>
   );
 }
 
@@ -28,6 +30,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  image: {
+    flex: 1,
+    // marginTop: 0,
+    // justifyContent: 'center',
+    // marginHorizontal: 10
+    // height: '100%',
+    width: '106%',
   },
   container: {
     flex: 1,

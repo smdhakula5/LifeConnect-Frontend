@@ -130,15 +130,18 @@ const styles = StyleSheet.create({
     color: '#1E90FF',
   },
   dropdownItem: {
-    paddingVertical: 10,
+    marginVertical: 9,
+    paddingVertical: 7,
     paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: 'lightgrey',
-  },
-  dropdownItemText: {
+    borderWidth: 1,
+    borderRadius: 5,
+    backgroundColor: '#1E90FF',
+    borderColor: 'lightgrey',
+},
+dropdownItemText: {
     fontSize: 18,
-    color: '#1E90FF',
-  },
+    color: '#FFFFFF',
+},
   title: {
     fontSize: 36,
     fontWeight: 'bold',
