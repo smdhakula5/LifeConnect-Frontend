@@ -80,7 +80,7 @@ export default function UserProfile(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#d8fd7271',
     padding: 20,
   },
   title: {
@@ -88,14 +88,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     color: '#000000',
+    textAlign: 'center',
   },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    // justifyContent: 'space-around',
+    // marginBottom: 10,
+    paddingVertical: 20,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor:'#aaaaaa',
   },
   label: {
-    flex: 1,
+    // flex: 1,
     fontSize: 18,
     fontWeight: 'bold',
     color: '#000000',
@@ -105,6 +111,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#000000',
+    paddingLeft: 10,
   },
 });
 

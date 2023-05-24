@@ -7,6 +7,7 @@ import BackgroundLocation from '../BackgroundLocation';
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
 import * as Notifications from 'expo-notifications';
+import Icon from 'react-native-vector-icons/Feather';
 
 TaskManager.defineTask('locationTask', async ({ data, error }) => {
     if (error) {
@@ -108,7 +109,8 @@ export default function Dashboard(props){
     return(
         <View style={styles.container}>
             <TouchableOpacity style={styles.dropdownContainer} onPress={toggleDropdown}>
-                <Text style={styles.dropdownText}>...</Text>
+                {/* <Text style={styles.dropdownText}>...</Text> */}
+                <Icon name="menu" size={30} color="#1E90FF" />
             </TouchableOpacity>
             {isDropdownOpen && (
                 <FlatList
@@ -141,15 +143,17 @@ const styles = StyleSheet.create({
     },
     dropdownContainer: {
         position: 'absolute',
-        top: 0,
         right: 0,
         margin: 10,
         alignItems: 'flex-end',
         justifyContent: 'flex-start',
         right: 10,
-        top: 40,
+        top: 0,
     },
     dropdownText: {
+        // display: 'flex',
+        // flexDirection: 'column',
+        // lineHeight: 0,
         fontSize: 24,
         fontWeight: 'bold',
         color: '#1E90FF',
