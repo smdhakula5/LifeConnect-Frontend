@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Dimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomButton from "../components/CustomButton";
+import Icon from 'react-native-vector-icons/Feather';
 
 const { width } = Dimensions.get('window');
 const buttonWidth = (width - 60) / 3;
@@ -45,7 +46,8 @@ export default function ReceiverDashboard(props) {
     return (
       <View style={styles.container}>
         <TouchableOpacity style={styles.dropdownContainer} onPress={toggleDropdown}>
-          <Text style={styles.dropdownText}>...</Text>
+          {/* <Text style={styles.dropdownText}>...</Text> */}
+          <Icon name="menu" size={30} color="#1E90FF" />
         </TouchableOpacity>
         {isDropdownOpen && (
           <FlatList
