@@ -5,7 +5,7 @@ The recipient can generate a request from their device for a certain blood type,
 
 Here are some of the screenshots of our project-
 
-![dummy](assets/images/IMG_20230726_182103.jpg)
+<img src="assets/images/IMG_20230726_182103.jpg" alt="Project Screenshot" width="300" height="200">
 ![dummy](assets/images/IMG_20230726_182511.jpg)
 ![dummy](assets/images/Screenshot_2023-07-26-17-46-57-140_host.exp.exponent.jpg)
 ![dummy](assets/images/Screenshot_2023-07-26-17-47-06-378_host.exp.exponent.jpg)
