@@ -5,15 +5,16 @@ The recipient can generate a request from their device for a certain blood type,
 
 Here are some of the screenshots of our project-
 
-<img src="assets/images/IMG_20230726_182103.jpg" alt="Project Screenshot" width="400" height="600">
-![dummy](assets/images/IMG_20230726_182511.jpg)
-![dummy](assets/images/Screenshot_2023-07-26-17-46-57-140_host.exp.exponent.jpg)
-![dummy](assets/images/Screenshot_2023-07-26-17-47-06-378_host.exp.exponent.jpg)
-![dummy](assets/images/Screenshot_2023-07-26-17-47-13-142_host.exp.exponent.jpg)
-![dummy](assets/images/Screenshot_2023-07-26-17-52-50-870_host.exp.exponent.jpg)
-![dummy](assets/images/Screenshot_2023-07-26-17-56-13-951_host.exp.exponent.jpg)
-![dummy](assets/images/Screenshot_2023-07-26-17-57-49-415_host.exp.exponent.jpg)
-![dummy](assets/images/Screenshot_2023-07-26-17-58-07-605_host.exp.exponent.jpg)
-![dummy](assets/images/Screenshot_2023-07-26-17-58-42-733_host.exp.exponent.jpg)
-![dummy](assets/images/Screenshot_2023-07-26-18-10-02-346_host.exp.exponent.jpg)
-![dummy](assets/images/Screenshot_2023-07-26-18-10-11-797_host.exp.exponent.jpg)
+<img src="assets/images/IMG_20230726_182103.jpg" alt="Project Screenshot" width="300" height="600">
+<img src="assets/images/IMG_20230726_182511.jpg" alt="Project Screenshot" width="300" height="600">
+<img src="assets/images/Screenshot_2023-07-26-17-46-57-140_host.exp.exponent.jpg" alt="Project Screenshot" width="300" height="600">
+<img src="assets/images/Screenshot_2023-07-26-17-47-06-378_host.exp.exponent.jpg" alt="Project Screenshot" width="300" height="600">
+<img src="assets/images/Screenshot_2023-07-26-17-47-13-142_host.exp.exponent.jpg" alt="Project Screenshot" width="300" height="600">
+<img src="assets/images/Screenshot_2023-07-26-17-52-50-870_host.exp.exponent.jpg" alt="Project Screenshot" width="300" height="600">
+<img src="assets/images/Screenshot_2023-07-26-17-56-13-951_host.exp.exponent.jpg" alt="Project Screenshot" width="300" height="600">
+<img src="assets/images/Screenshot_2023-07-26-17-57-49-415_host.exp.exponent.jpg" alt="Project Screenshot" width="300" height="600">
+<img src="assets/images/Screenshot_2023-07-26-17-58-07-605_host.exp.exponent.jpg" alt="Project Screenshot" width="300" height="600">
+<img src="assets/images/Screenshot_2023-07-26-17-58-42-733_host.exp.exponent.jpg" alt="Project Screenshot" width="300" height="600">
+<img src="assets/images/Screenshot_2023-07-26-18-10-02-346_host.exp.exponent.jpg" alt="Project Screenshot" width="300" height="600">
+<img src="assets/images/Screenshot_2023-07-26-18-10-11-797_host.exp.exponent.jpg" alt="Project Screenshot" width="300" height="600">
+
